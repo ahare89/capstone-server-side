@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
-using capstone_server_side.Models;
-using capstone_server_side.Data;
+using capstone.Models;
 using Microsoft.EntityFrameworkCore;
+using capstone.Data;
 
-namespace capstone_server_side.Controllers;
+namespace capstone.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class UserProfileController : ControllerBase
 {
-    private capstone_server_sideDbContext _dbContext;
+    private capstoneDbContext _dbContext;
 
-    public UserProfileController(capstone_server_sideDbContext context)
+    public UserProfileController(capstoneDbContext context)
     {
         _dbContext = context;
     }
@@ -27,6 +27,20 @@ public class UserProfileController : ControllerBase
     public IActionResult Get()
     {
         return Ok(_dbContext.UserProfiles.ToList());
+    }
+
+    [HttpGet("{id}")]
+    [Authorize]
+
+    public IActionResult GetUserProfilesById(int id) 
+    {
+        UserProfile foundUserProfile = _dbContext.UserProfiles
+        .SingleOrDefault(up => up.Id == id);
+        if (foundUserProfile == null)
+        {
+            return NotFound();
+        }
+        return Ok(foundUserProfile);
     }
 
     [HttpGet("withroles")]

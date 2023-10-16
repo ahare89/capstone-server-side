@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-namespace capstone_server_side.Models;
+namespace capstone.Models;
 
 public class Property {
 
@@ -12,7 +12,8 @@ public class Property {
     [Required]
     public string Description { get; set; }
     public int PropertyTypeId { get; set; }
+    public bool isActive { get; set; }
 
-    public List<string> ImageUrls { get; set; }
+    public List<Image> Images { get; set; }
 
 }

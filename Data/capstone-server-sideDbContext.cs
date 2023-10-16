@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using capstone_server_side.Models;
+using capstone.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace capstone_server_side.Data;
-public class capstone_server_sideDbContext : IdentityDbContext<IdentityUser>
+namespace capstone.Data;
+public class capstoneDbContext : IdentityDbContext<IdentityUser>
 {
     private readonly IConfiguration _configuration;
     public DbSet<UserProfile> UserProfiles { get; set; }
@@ -14,7 +14,7 @@ public class capstone_server_sideDbContext : IdentityDbContext<IdentityUser>
     public DbSet<PropertyType> PropertyTypes { get; set; }
      
 
-    public capstone_server_sideDbContext(DbContextOptions<capstone_server_sideDbContext> context, IConfiguration config) : base(context)
+    public capstoneDbContext(DbContextOptions<capstoneDbContext> context, IConfiguration config) : base(context)
     {
         _configuration = config;
     }
@@ -175,6 +175,16 @@ public class capstone_server_sideDbContext : IdentityDbContext<IdentityUser>
             
         });
 
+        modelBuilder.Entity<Image>().HasData(new Image[] {
+            new Image {Id = 1, PropertyId = 1, Url = "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp"},
+            new Image {Id = 2, PropertyId = 1, Url = "https://photos.zillowstatic.com/fp/120013c596711cbe3e39b5e1bb8881a2-uncropped_scaled_within_1536_1152.webp"},
+            new Image {Id = 3, PropertyId = 1, Url = "https://photos.zillowstatic.com/fp/f8502efdafe6a682646d832ad9c3641b-uncropped_scaled_within_1536_1152.webp"},
+            new Image {Id = 4, PropertyId = 1, Url = "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp"},
+            new Image {Id = 5, PropertyId = 1, Url = "https://photos.zillowstatic.com/fp/0779ac588dfeecf20adb1ff91724fb9a-uncropped_scaled_within_1536_1152.webp"},
+            new Image {Id = 6, PropertyId = 1, Url = "https://photos.zillowstatic.com/fp/607dab54c778c9c420d3a7d905fdb485-uncropped_scaled_within_1536_1152.webp"}
+
+        });
+
         modelBuilder.Entity<Property>().HasData(new Property[] {
             new Property {
                 Id = 1,
@@ -183,16 +193,8 @@ public class capstone_server_sideDbContext : IdentityDbContext<IdentityUser>
                 SqFt = 1542,
                 Description = "Rodney Walker designed mid-century located within prestigious Bel Air. This renovated and updated architectural gem is set up a private drive and boasts panoramic glass wall views of rolling hills, valley, and city lights from every location of its open floor plan. Skylights mixed with elements of glass, steel, concrete, and wood contrasted with the scenery give this home the outdoor feeling sought after by this masterful architect.",
                 PropertyTypeId = 1,
-                ImageUrls = new List<string>
-                {
-                    "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp",
-                    "https://photos.zillowstatic.com/fp/120013c596711cbe3e39b5e1bb8881a2-uncropped_scaled_within_1536_1152.webp",
-                    "https://photos.zillowstatic.com/fp/f8502efdafe6a682646d832ad9c3641b-uncropped_scaled_within_1536_1152.webp",
-                    "https://photos.zillowstatic.com/fp/b82e8bbc6ce240c94ee9fdd1735e6e0a-uncropped_scaled_within_1536_1152.webp",
-                    "https://photos.zillowstatic.com/fp/0779ac588dfeecf20adb1ff91724fb9a-uncropped_scaled_within_1536_1152.webp",
-                    "https://photos.zillowstatic.com/fp/607dab54c778c9c420d3a7d905fdb485-uncropped_scaled_within_1536_1152.webp"
-                }
-            },
+                isActive = true
+            }
 
         });
 

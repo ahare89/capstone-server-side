@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
-namespace capstone_server_side.Models;
+namespace capstone.Models;
 
 
 public class UserProfile

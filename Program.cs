@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using capstone_server_side.Data;
+using capstone.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {
-        options.Cookie.Name = "capstone_server_sideLoginCookie";
+        options.Cookie.Name = "capstoneLoginCookie";
         options.Cookie.SameSite = SameSiteMode.Strict;
         options.Cookie.HttpOnly = true; //The cookie cannot be accessed through JS (protects against XSS)
         options.Cookie.MaxAge = new TimeSpan(7, 0, 0, 0); // cookie expires in a week regardless of activity
@@ -46,13 +46,13 @@ builder.Services.AddIdentityCore<IdentityUser>(config =>
                 config.Password.RequireUppercase = false;
             })
     .AddRoles<IdentityRole>()  //add the role service.  
-    .AddEntityFrameworkStores<capstone_server_sideDbContext>();
+    .AddEntityFrameworkStores<capstoneDbContext>();
 
 // allows passing datetimes without time zone data 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // allows our api endpoints to access the database through Entity Framework Core
-builder.Services.AddNpgsql<capstone_server_sideDbContext>(builder.Configuration["capstone_server_sideDbConnectionString"]);
+builder.Services.AddNpgsql<capstoneDbContext>(builder.Configuration["capstoneDbConnectionString"]);
 
 
 var app = builder.Build();

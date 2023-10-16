@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace capstone_server_side.Models;
+namespace capstone.Models;
 
 public class PropertyType { 
     public int Id { get; set; }

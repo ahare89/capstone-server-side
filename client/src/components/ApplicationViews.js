@@ -5,6 +5,7 @@ import Register from "./auth/Register";
 import { Home } from "./Home";
 import { UserProfileList } from "./UserProfileList";
 import { UserProfileDetails } from "./UserProfileDetails";
+import { AvailablePropertiesList } from "./properties/AvailablePropertiesList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -18,6 +19,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         }
         index
       />
+      <Route
+      path="/cleanme"
+      element={
+        <AuthorizedRoute loggedInUser={loggedInUser}>
+          <AvailablePropertiesList/>
+        </AuthorizedRoute>
+      }>
+      </Route>
       <Route
         path="/userprofiles"
         element={

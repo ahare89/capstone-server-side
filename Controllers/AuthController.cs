@@ -5,21 +5,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
-using capstone_server_side.Models;
-using capstone_server_side.Data;
+using capstone.Models;
+using capstone.Data;
 
 
-namespace capstone_server_side.Controllers;
+namespace capstone.Controllers;
 
 
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private capstone_server_sideDbContext _dbContext;
+    private capstoneDbContext _dbContext;
     private UserManager<IdentityUser> _userManager;
 
-    public AuthController(capstone_server_sideDbContext context, UserManager<IdentityUser> userManager)
+    public AuthController(capstoneDbContext context, UserManager<IdentityUser> userManager)
     {
         _dbContext = context;
         _userManager = userManager;
