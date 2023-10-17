@@ -34,6 +34,16 @@ return (
                         Available for Cleaning
                     </NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink tag={RRNavLink} to="/properties">
+                        All Properties
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={RRNavLink} to="/profile">
+                        My Profile
+                    </NavLink>
+                </NavItem>
             </Nav>
             </Collapse>
             <Button

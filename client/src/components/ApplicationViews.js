@@ -6,6 +6,8 @@ import { Home } from "./Home";
 import { UserProfileList } from "./UserProfileList";
 import { UserProfileDetails } from "./UserProfileDetails";
 import { AvailablePropertiesList } from "./properties/AvailablePropertiesList";
+import { AllPropertiesList } from "./properties/AllPropertiesList";
+import MyProfile from "./MyProfile";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -24,6 +26,22 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
       element={
         <AuthorizedRoute loggedInUser={loggedInUser}>
           <AvailablePropertiesList/>
+        </AuthorizedRoute>
+      }>
+        </Route>
+        <Route
+      path="/properties"
+      element={
+        <AuthorizedRoute loggedInUser={loggedInUser}>
+          <AllPropertiesList loggedInUser={loggedInUser}/>
+        </AuthorizedRoute>
+      }>
+      </Route>
+      <Route
+      path="/profile"
+      element={
+        <AuthorizedRoute loggedInUser={loggedInUser}>
+          <MyProfile loggedInUser={loggedInUser}/>
         </AuthorizedRoute>
       }>
       </Route>
