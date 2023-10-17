@@ -223,7 +223,7 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -233,9 +233,9 @@ namespace capstone_server_side.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Image_Properties_PropertyId",
+                        name: "FK_Images_Properties_PropertyId",
                         column: x => x.PropertyId,
                         principalTable: "Properties",
                         principalColumn: "Id",
@@ -247,9 +247,9 @@ namespace capstone_server_side.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36", "43b28139-2df7-4a2c-8134-46eae8d03d0a", "Host", "host" },
-                    { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "1775b91c-8115-4a7b-a05f-69df2fb776e4", "Admin", "admin" },
-                    { "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5", "2b758cb5-0a1e-4d3c-b656-90d0ff674f23", "Cleaner", "cleaner" }
+                    { "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36", "8b67ded5-f57b-45f2-b1d8-c050a6478591", "Host", "host" },
+                    { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "eba9dea3-062e-4ade-ba9b-bac15c7b57fd", "Admin", "admin" },
+                    { "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5", "82c23f25-8025-4412-9cc8-298ef889f1ea", "Cleaner", "cleaner" }
                 });
 
             migrationBuilder.InsertData(
@@ -257,11 +257,11 @@ namespace capstone_server_side.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", 0, "abd7f631-7f06-4308-a400-8f2af7530104", "michael@barrick.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEBlhj/fWryyoTysMy5khfx+tpBRKnd7n3YDNJU9g7ZVQPwfDIl/hgQgbZ9F84tlHUg==", null, false, "4bcb8e87-0f1c-40ce-861d-59da6498ded4", false, "mbarrick" },
-                    { "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", 0, "fe51e3b1-684f-470d-b7f8-48ea493a8c1a", "barry@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEIWojIEj1QCyK2VH6wvdyiGyA0o+p1cYbtuqHkYj+KsgCvmw3TkDf/ioiAUuMCF+hg==", null, false, "1ce6d63c-5d96-4866-9bd0-5c05a48233f8", false, "bsanderson" },
-                    { "c451fa23-21d9-4959-9e08-2040a3a00a80", 0, "40b6806f-cd08-428f-beb5-3dd12efe76ef", "joe@sampson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEIHHKm+vqlCxkfALym4P6Y7KZcTJvwiuoeiqTGxxBAV1Gh4nxB/4Lf+whQXe0MOvSw==", null, false, "fd642e79-a8ca-40cb-a765-452f907ac4c6", false, "jsampson" },
-                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "a3590ea7-017d-4382-aac9-d68f56655338", "admina@strator.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAED4Fuxxf5DBbkC0NiXmG7ZZjx7RG7l+L3trDS4q+2X5luASV01UvfP+wI15bUYfFoA==", null, false, "1a42398a-87a5-4651-9a9b-e119ab6d7699", false, "Administrator" },
-                    { "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", 0, "4fa6d5ca-bd0f-4da2-8828-ffcf7e92b710", "winnie@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEG4HKXdXncYR7WYUg0t8sZGSQ5177gk+Y4z2zZ4+LTYDeLftAjzsBLPK1PR+euLT9A==", null, false, "d84120db-2eef-4e1f-b348-b9691bbf5662", false, "wsanderson" }
+                    { "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", 0, "9c4fbc1b-acab-4498-8003-16cbcbe053a4", "michael@barrick.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAECSLD7AfkLM+dGaLIJPzYMqr6JuhgfgxyfGkIYSrGth3gsKBJ1PpBmjsk215j/JBZQ==", null, false, "907a2ffa-a667-4f40-b09b-d1df58b26d69", false, "mbarrick" },
+                    { "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", 0, "031ad6d4-2c92-49bc-a1fa-5d2e9e8419e8", "barry@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEAn3S1H/SPH5MfA330VYynr/p5q/E7VafZJRbUEYaqBuW9KRYgI2IQELEj/Jf6ZWzg==", null, false, "2958a754-0868-4edb-a837-33453482a310", false, "bsanderson" },
+                    { "c451fa23-21d9-4959-9e08-2040a3a00a80", 0, "6d5d68e8-288f-4439-9322-86ead4365f0a", "joe@sampson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEH32NrxAnyeloDa1jXdOk+bwbm8wgIQoJKUibEB/hHmtmBDfs7kWCBErsleQXl8NBA==", null, false, "b151f706-13bd-4909-96e2-e40be405b925", false, "jsampson" },
+                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "69cf2947-13cb-4162-90de-ea84747b4f78", "admina@strator.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEP6S/CQ/QWW0l/q6lnTKlKDQMCMOjkXL+BO+YycrhEYMBmLKzkow/DS/UBoKPdk+IA==", null, false, "45616f68-a9dc-44e0-b503-2eea25ccdacf", false, "Administrator" },
+                    { "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", 0, "b4906bbf-2ea4-4565-808a-970dca0962c9", "winnie@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEILYf5SMrRqK1TUMJoK/oplTUA0brcIeHyQu0wlizrsLnMx59GD+Z9zINxZXuNkcPA==", null, false, "30503716-48fd-488d-86bf-fe1bc5906b26", false, "wsanderson" }
                 });
 
             migrationBuilder.InsertData(
@@ -300,7 +300,7 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Image",
+                table: "Images",
                 columns: new[] { "Id", "PropertyId", "Url" },
                 values: new object[,]
                 {
@@ -362,8 +362,8 @@ namespace capstone_server_side.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_PropertyId",
-                table: "Image",
+                name: "IX_Images_PropertyId",
+                table: "Images",
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
@@ -393,7 +393,7 @@ namespace capstone_server_side.Migrations
                 name: "CleaningJobs");
 
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "PropertyTypes");

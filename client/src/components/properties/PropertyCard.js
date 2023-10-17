@@ -8,9 +8,13 @@ import {
   } from "reactstrap";
 
   
-
-export default function PropertyCard({property, setDetailsPropertyId}) {
-    return (
+  export default function PropertyCard({property, setDetailsPropertyId}) {
+      
+    
+    console.log(property)
+      
+      
+      return (
         <Card color="dark" outline style={{ marginBottom: "4px"}}>
             <CardBody>
                 <CardTitle tag="h5">{property.address}</CardTitle>
@@ -18,7 +22,10 @@ export default function PropertyCard({property, setDetailsPropertyId}) {
                     Description: {property.description}
                 </CardSubtitle>
                 <CardText>Square Feet: {property.sqFt}</CardText>
-                <Button color="dark"
+                <CardText>
+                {property.images.map(pi => <img key={pi.id} style={{width: '200px', height: '200px'}} className="img" src={pi.url}/>)}
+                </CardText>
+                <Button color="info"
                 onClick={() => {
                     setDetailsPropertyId(property.id)
                     window.scrollTo({

@@ -26,7 +26,10 @@ public class PropertyController : ControllerBase
     [HttpGet]
     // [Authorize]
     public IActionResult GetProperties() {
-        return Ok(_dbContext.Properties.ToList());
+
+        var propertiesWithImages = _dbContext.Properties.Include(p => p.Images).ToList();
+
+        return Ok(propertiesWithImages);
     }
 
     [HttpGet("available")]
@@ -34,29 +37,35 @@ public class PropertyController : ControllerBase
 
     public IActionResult GetAvailableProperties() {
 
-        return Ok(_dbContext.Properties
+        return Ok(_dbContext.Properties.Include(p => p.Images)
         .Where(p => p.isActive == true)
-        .Include(p => p.Images)
-        .Where(i)
         .ToList());
     }
 
-    [HttpGet("images")]
-    public IActionResult GetAllPropertyImages()
-    {
-        try
-        {
-            // Retrieve all properties with their associated images.
-            var propertiesWithImages = _dbContext.Properties.Include(p => p.Images).ToList();
+    [HttpGet("{id}")]
+    // [Authorize]
+    public IActionResult GetPropertyWithImages(int id) {
 
-            // Extract image URLs from all properties' Images collections.
-            var allImageUrls = propertiesWithImages.SelectMany(p => p.Images.Select(img => img.Url)).ToList();
-
-            return Ok(propertiesWithImages);
-        }
-        catch (Exception ex)
+        Property foundProperty = _dbContext.Properties.SingleOrDefault(p => p.Id == id);
+        if (foundProperty == null)
         {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            return NotFound();
         }
+        List<Image> matchedImages = new List<Image>();
+        matchedImages = _dbContext.Images.Where(i => i.PropertyId == id).ToList();
+        foundProperty.Images = matchedImages;
+
+        return Ok(foundProperty);
+
     }
+
+    [HttpPost]
+    // [Authorize]
+
+    public IActionResult AddAProperty(Property newProperty){
+        _dbContext.Properties.Add(newProperty);
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
+   
 }
