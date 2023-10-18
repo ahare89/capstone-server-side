@@ -29,20 +29,28 @@ return (
             <NavbarToggler onClick={toggleNavbar} />
             <Collapse isOpen={open} navbar>
             <Nav navbar>
-                <NavItem>
+                <NavItem className="navlink">
+                {loggedInUser?.roles.includes("Cleaner", "Admin") && (
                     <NavLink tag={RRNavLink} to="/cleanme">
                         Available for Cleaning
-                    </NavLink>
+                    </NavLink>)}
                 </NavItem>
-                <NavItem>
+                <NavItem className="navlink">
+                {loggedInUser?.roles.includes("Admin") && (
                     <NavLink tag={RRNavLink} to="/properties">
                         All Properties
-                    </NavLink>
+                    </NavLink>)}
                 </NavItem>
-                <NavItem>
+                <NavItem className="navlink">
                     <NavLink tag={RRNavLink} to="/profile">
                         My Profile
                     </NavLink>
+                </NavItem>
+                <NavItem className="navlink">
+                {loggedInUser?.roles.includes("Host", "Admin") && (
+                    <NavLink tag={RRNavLink} to="/myproperties">
+                        My Properties
+                    </NavLink>)}
                 </NavItem>
             </Nav>
             </Collapse>

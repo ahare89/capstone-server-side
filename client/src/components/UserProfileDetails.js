@@ -34,6 +34,7 @@ return (
                 <th>User Profile Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>E-mail</th>
                 <th>Address</th>
             </tr>
         </thead>
@@ -42,6 +43,7 @@ return (
             <td>{user.id}</td>
             <td>{user?.firstName}</td>
             <td>{user?.lastName}</td>
+            <td>{user?.identityUser.email}</td>
             <td>{user?.address}</td>
             <td></td>
         </tr>
