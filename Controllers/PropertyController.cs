@@ -59,6 +59,15 @@ public class PropertyController : ControllerBase
 
     }
 
+    [HttpGet("myproperties")]
+    // [Authorize]
+
+    public IActionResult GetPropertiesByUser(int userId)
+    {
+        return Ok(_dbContext.Properties.Include(p => p.Images)
+        .Where(p => p.UserProfileId == userId));
+    }
+
     [HttpPost]
     // [Authorize]
 

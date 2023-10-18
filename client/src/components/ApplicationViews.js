@@ -8,6 +8,7 @@ import { UserProfileDetails } from "./UserProfileDetails";
 import { AvailablePropertiesList } from "./properties/AvailablePropertiesList";
 import { AllPropertiesList } from "./properties/AllPropertiesList";
 import MyProfile from "./MyProfile";
+import { MyPropertiesList } from "./properties/MyPropertiesList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -24,7 +25,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
       <Route
       path="/cleanme"
       element={
-        <AuthorizedRoute loggedInUser={loggedInUser}>
+        <AuthorizedRoute roles= {["Cleaner", "Admin"]} loggedInUser={loggedInUser}>
           <AvailablePropertiesList/>
         </AuthorizedRoute>
       }>
@@ -42,6 +43,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
       element={
         <AuthorizedRoute loggedInUser={loggedInUser}>
           <MyProfile loggedInUser={loggedInUser}/>
+        </AuthorizedRoute>
+      }>
+      </Route>
+      <Route
+      path="/myproperties"
+      element={
+        <AuthorizedRoute roles={["Host", "Admin"]} loggedInUser={loggedInUser}>
+          <MyPropertiesList loggedInUser={loggedInUser}/>
         </AuthorizedRoute>
       }>
       </Route>

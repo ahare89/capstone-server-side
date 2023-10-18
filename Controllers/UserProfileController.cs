@@ -30,11 +30,12 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
+    // [Authorize]
 
     public IActionResult GetUserProfilesById(int id) 
     {
         UserProfile foundUserProfile = _dbContext.UserProfiles
+        .Include(up => up.IdentityUser)
         .SingleOrDefault(up => up.Id == id);
         if (foundUserProfile == null)
         {
@@ -44,7 +45,7 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpGet("withroles")]
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public IActionResult GetWithRoles()
     {
         return Ok(_dbContext.UserProfiles
