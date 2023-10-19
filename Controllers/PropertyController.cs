@@ -27,7 +27,10 @@ public class PropertyController : ControllerBase
     // [Authorize]
     public IActionResult GetProperties() {
 
-        var propertiesWithImages = _dbContext.Properties.Include(p => p.Images).ToList();
+        var propertiesWithImages = _dbContext.Properties
+        .Include(p => p.Images)
+        .Include(p => p.PropertyType)
+        .ToList();
 
         return Ok(propertiesWithImages);
     }
@@ -74,6 +77,22 @@ public class PropertyController : ControllerBase
     public IActionResult AddAProperty(Property newProperty){
         _dbContext.Properties.Add(newProperty);
         _dbContext.SaveChanges();
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+
+    public IActionResult DeleteProperty(int id)
+    {
+        Property propertyToDelete = _dbContext.Properties.SingleOrDefault(p => p.Id == id);
+        if (propertyToDelete == null)
+        {
+            return NotFound();
+        }
+        _dbContext.Remove(propertyToDelete);
+        _dbContext.SaveChanges();
+
         return NoContent();
     }
    

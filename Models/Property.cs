@@ -12,6 +12,7 @@ public class Property {
     [Required]
     public string Description { get; set; }
     public int PropertyTypeId { get; set; }
+    public PropertyType PropertyType { get; set; }
     public bool isActive { get; set; }
 
     public List<Image> Images { get; set; }

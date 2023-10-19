@@ -32,6 +32,9 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
         myProperties.map((property) => (<PropertyCard
         property={property}
         setDetailsPropertyId={setDetailsPropertyId}
+        getPropertiesForUser={getPropertiesForUser}        
+        setMyProperties={setMyProperties}
+        loggedInUser={loggedInUser}
         key={`property-${property.id}`}/>
         )))
         : (

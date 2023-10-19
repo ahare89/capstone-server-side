@@ -28,6 +28,7 @@ export const AddAProperty = ({
     description: "",
     propertyTypeId: "",
     isActive: false,
+    images: []
   });
 
   useEffect(() => {
@@ -115,16 +116,17 @@ export const AddAProperty = ({
             name="isActive"
             onChange={handleChange}
           />
-          <div>
+          {/* <div>
             <Label>Image URLs</Label>
             <Input
               type="text"
-              name="image"
-              htmlFor="image"
+              name="images"
+              htmlFor="images"
               placeholder="www.google.com"
+              onChange={handleChange}
             />
           </div>
-          <Button className="btn btn-info">Add Another Image?</Button>
+          <Button className="btn btn-info">Add Another Image?</Button> */}
         </FormGroup>
         <Button
           className="btn btn-warning"
