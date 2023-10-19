@@ -35,8 +35,21 @@ public class UserProfileController : ControllerBase
     public IActionResult GetUserProfilesById(int id) 
     {
         UserProfile foundUserProfile = _dbContext.UserProfiles
-        .Include(up => up.IdentityUser)
+        .Include(up => up.IdentityUser).Select(up => new UserProfile{
+            Id = up.Id,
+            FirstName = up.FirstName,
+            LastName = up.LastName,
+            Address = up.Address,
+            Email = up.IdentityUser.Email,
+            UserName = up.IdentityUser.UserName,
+            IdentityUserId = up.IdentityUserId,
+            Roles = _dbContext.UserRoles
+            .Where(ur => ur.UserId == up.IdentityUserId)
+            .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
+            .ToList()
+        })
         .SingleOrDefault(up => up.Id == id);
+
         if (foundUserProfile == null)
         {
             return NotFound();
@@ -96,6 +109,22 @@ public class UserProfileController : ControllerBase
         _dbContext.UserRoles.Remove(userRole);
         _dbContext.SaveChanges();
         return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+
+    public IActionResult UpdateUserProfile(int id, UserProfile updatedProfile)
+    {
+        UserProfile profileToUpdate = _dbContext.UserProfiles.SingleOrDefault(up => up.Id == id);
+        profileToUpdate.FirstName = updatedProfile.FirstName;
+        profileToUpdate.LastName = updatedProfile.LastName;
+        profileToUpdate.Email = updatedProfile.Email;
+        profileToUpdate.UserName = updatedProfile.UserName;
+
+        _dbContext.SaveChanges();
+        return NoContent();
+
     }
 
 }

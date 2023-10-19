@@ -7,13 +7,26 @@ import {
     CardSubtitle,
     Button,
   } from "reactstrap";
+import { deleteAProperty } from "../../managers/propertyManager";
 
   
-  export default function PropertyCard({property, setDetailsPropertyId}) {
+  export default function PropertyCard({property, setDetailsPropertyId, getPropertiesForUser, setMyProperties, loggedInUser}) {
     console.log("setDetailsPropertyId prop:", setDetailsPropertyId);
     const [editMode, setEditMode] = useState(false);
-    
-    console.log(property)
+
+    const handleDeleteButton = async (id) => {
+        try {
+        const res = await deleteAProperty(id);
+        if (res.status === 204) {
+            const properties = await getPropertiesForUser(loggedInUser.id)
+            setMyProperties(properties)
+        } else {
+            console.error("Failed to delete property", res.status)
+        }
+    } catch (error){
+        console.error("Error while deleting property", error)
+    }
+}
       
       
       return (
@@ -38,7 +51,7 @@ import {
                 }}>
                     Show Details
                 </Button>
-                <Button className="btn btn-danger">Delete</Button>
+                <Button onClick={() => handleDeleteButton(property.id)} className="btn btn-danger">Delete</Button>
                 <Button className="btn btn-warning">Edit Property</Button>
             </CardBody>
         </Card>

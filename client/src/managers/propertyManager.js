@@ -24,3 +24,9 @@ export const getPropertiesForUser = (userId) => {
     return fetch(`${_apiUrl}/myproperties?userId=${userId}`).then(res => res.json());
 }
 
+export const deleteAProperty = (id) => {
+    return fetch(`${_apiUrl}/${id}`,{
+        method: "DELETE",
+        headers: {'Content-Type' : 'application/json'}
+    })
+}
