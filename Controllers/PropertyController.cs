@@ -8,6 +8,7 @@ using System.Text;
 using capstone.Models;
 using capstone.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
 namespace capstone.Controllers;
 
@@ -23,13 +24,16 @@ public class PropertyController : ControllerBase
         _dbContext = context;
     }
 
-    [HttpGet]
-    // [Authorize]
-    public IActionResult GetProperties() {
+    // [HttpGet]
+    [Authorize]
+    public IActionResult GetProperties()
+    {
 
         var propertiesWithImages = _dbContext.Properties
         .Include(p => p.Images)
         .Include(p => p.PropertyType)
+        .Include(p => p.UserProfile)
+        .ThenInclude(up => up.IdentityUser)
         .ToList();
 
         return Ok(propertiesWithImages);
@@ -38,22 +42,52 @@ public class PropertyController : ControllerBase
     [HttpGet("available")]
     // [Authorize]
 
-    public IActionResult GetAvailableProperties() {
+    public IActionResult GetAvailableProperties()
+    {
 
-        return Ok(_dbContext.Properties.Include(p => p.Images)
+        return Ok(_dbContext.Properties
+        .Include(p => p.Images)
+        .Include(p => p.PropertyType)
+        .Include(p => p.UserProfile)
+        .ThenInclude(up => up.IdentityUser)
         .Where(p => p.isActive == true)
         .ToList());
     }
 
     [HttpGet("{id}")]
     // [Authorize]
-    public IActionResult GetPropertyWithImages(int id) {
+    public IActionResult GetPropertyWithImages(int id)
+    {
 
-        Property foundProperty = _dbContext.Properties.SingleOrDefault(p => p.Id == id);
+        Property foundProperty = _dbContext.Properties
+        .Include(p => p.Images)
+        .Include(p => p.PropertyType)
+        .Include(p => p.UserProfile)
+        .ThenInclude(up => up.IdentityUser)
+        .SingleOrDefault(p => p.Id == id);
         if (foundProperty == null)
         {
             return NotFound();
         }
+
+        UserProfile foundUserProfile = _dbContext.UserProfiles
+        .Include(up => up.IdentityUser).Select(up => new UserProfile{
+            Id = up.Id,
+            FirstName = up.FirstName,
+            LastName = up.LastName,
+            Address = up.Address,
+            Email = up.IdentityUser.Email,
+            UserName = up.IdentityUser.UserName,
+            IdentityUserId = up.IdentityUserId,
+            Roles = _dbContext.UserRoles
+            .Where(ur => ur.UserId == up.IdentityUserId)
+            .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
+            .ToList()
+        })
+        .SingleOrDefault(up => up.Id == id);
+
+        foundProperty.UserProfile = foundUserProfile;
+
         List<Image> matchedImages = new List<Image>();
         matchedImages = _dbContext.Images.Where(i => i.PropertyId == id).ToList();
         foundProperty.Images = matchedImages;
@@ -67,17 +101,25 @@ public class PropertyController : ControllerBase
 
     public IActionResult GetPropertiesByUser(int userId)
     {
-        return Ok(_dbContext.Properties.Include(p => p.Images)
+        return Ok(_dbContext.Properties
+        .Include(p => p.Images)
+        .Include(p => p.PropertyType)
+        .Include(p => p.UserProfile)
         .Where(p => p.UserProfileId == userId));
     }
 
     [HttpPost]
     // [Authorize]
 
-    public IActionResult AddAProperty(Property newProperty){
+    public IActionResult AddAProperty(Property newProperty)
+    {
+
         _dbContext.Properties.Add(newProperty);
+        newProperty.UserProfile = _dbContext.UserProfiles.SingleOrDefault(up => up.Id == newProperty.UserProfileId);
         _dbContext.SaveChanges();
-        return NoContent();
+
+
+        return Created($"/api/property/${newProperty.Id}", newProperty);
     }
 
     [HttpDelete("{id}")]
@@ -95,5 +137,30 @@ public class PropertyController : ControllerBase
 
         return NoContent();
     }
-   
+
+    [HttpPut("{id}")]
+    // [Authorize]
+
+    public IActionResult UpdateProperty(int id, Property property)
+    {
+
+        Property propertyToUpdate = _dbContext.Properties.SingleOrDefault(p => p.Id == id);
+        if (propertyToUpdate == null)
+        {
+            return NotFound();
+        }
+
+        propertyToUpdate.Address = property.Address;
+        propertyToUpdate.SqFt = property.SqFt;
+        propertyToUpdate.Description = property.Description;
+        propertyToUpdate.PropertyTypeId = property.PropertyTypeId;
+        propertyToUpdate.isActive = property.isActive;
+        propertyToUpdate.CleaningCost = property.CleaningCost;
+        _dbContext.SaveChanges();
+
+        return NoContent();
+
+
+    }
+
 }

@@ -50,38 +50,6 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CleaningJobs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PropertyId = table.Column<int>(type: "integer", nullable: false),
-                    UserProfileId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CleaningJobs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Properties",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    UserProfileId = table.Column<int>(type: "integer", nullable: false),
-                    SqFt = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    PropertyTypeId = table.Column<int>(type: "integer", nullable: false),
-                    isActive = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Properties", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PropertyTypes",
                 columns: table => new
                 {
@@ -223,6 +191,64 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Properties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    UserProfileId = table.Column<int>(type: "integer", nullable: false),
+                    SqFt = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    PropertyTypeId = table.Column<int>(type: "integer", nullable: false),
+                    isActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CleaningCost = table.Column<decimal>(type: "numeric", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Properties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Properties_PropertyTypes_PropertyTypeId",
+                        column: x => x.PropertyTypeId,
+                        principalTable: "PropertyTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Properties_UserProfiles_UserProfileId",
+                        column: x => x.UserProfileId,
+                        principalTable: "UserProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CleaningJobs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PropertyId = table.Column<int>(type: "integer", nullable: false),
+                    UserProfileId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CleaningJobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CleaningJobs_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CleaningJobs_UserProfiles_UserProfileId",
+                        column: x => x.UserProfileId,
+                        principalTable: "UserProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Images",
                 columns: table => new
                 {
@@ -247,9 +273,9 @@ namespace capstone_server_side.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36", "8b67ded5-f57b-45f2-b1d8-c050a6478591", "Host", "host" },
-                    { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "eba9dea3-062e-4ade-ba9b-bac15c7b57fd", "Admin", "admin" },
-                    { "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5", "82c23f25-8025-4412-9cc8-298ef889f1ea", "Cleaner", "cleaner" }
+                    { "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36", "1d2aaf1f-08cd-412f-b8b6-6094cdb68f66", "Host", "host" },
+                    { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "b123b2ce-a22d-4602-9d04-6436a87f51dd", "Admin", "admin" },
+                    { "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5", "4c76a2c9-3146-491b-8daf-ca5ccbd6a8d7", "Cleaner", "cleaner" }
                 });
 
             migrationBuilder.InsertData(
@@ -257,22 +283,12 @@ namespace capstone_server_side.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", 0, "9c4fbc1b-acab-4498-8003-16cbcbe053a4", "michael@barrick.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAECSLD7AfkLM+dGaLIJPzYMqr6JuhgfgxyfGkIYSrGth3gsKBJ1PpBmjsk215j/JBZQ==", null, false, "907a2ffa-a667-4f40-b09b-d1df58b26d69", false, "mbarrick" },
-                    { "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", 0, "031ad6d4-2c92-49bc-a1fa-5d2e9e8419e8", "barry@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEAn3S1H/SPH5MfA330VYynr/p5q/E7VafZJRbUEYaqBuW9KRYgI2IQELEj/Jf6ZWzg==", null, false, "2958a754-0868-4edb-a837-33453482a310", false, "bsanderson" },
-                    { "c451fa23-21d9-4959-9e08-2040a3a00a80", 0, "6d5d68e8-288f-4439-9322-86ead4365f0a", "joe@sampson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEH32NrxAnyeloDa1jXdOk+bwbm8wgIQoJKUibEB/hHmtmBDfs7kWCBErsleQXl8NBA==", null, false, "b151f706-13bd-4909-96e2-e40be405b925", false, "jsampson" },
-                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "69cf2947-13cb-4162-90de-ea84747b4f78", "admina@strator.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEP6S/CQ/QWW0l/q6lnTKlKDQMCMOjkXL+BO+YycrhEYMBmLKzkow/DS/UBoKPdk+IA==", null, false, "45616f68-a9dc-44e0-b503-2eea25ccdacf", false, "Administrator" },
-                    { "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", 0, "b4906bbf-2ea4-4565-808a-970dca0962c9", "winnie@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEILYf5SMrRqK1TUMJoK/oplTUA0brcIeHyQu0wlizrsLnMx59GD+Z9zINxZXuNkcPA==", null, false, "30503716-48fd-488d-86bf-fe1bc5906b26", false, "wsanderson" }
+                    { "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", 0, "3b72a51d-a209-4e25-9878-a7c1f17f7660", "michael@barrick.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEKPtlOpzF61YIXlftl0nxPYcT/xSR7uL+iAem/XmR1YG4S7zafu0hjtM1nbyfen1jQ==", null, false, "77014b18-2f6b-4324-914b-31a10b3ceee0", false, "mbarrick" },
+                    { "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", 0, "a2982db0-5a5f-4e55-a54a-6a23b0a12e3a", "barry@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEENFwNageIfx81UIuWjbudFaLjIeGLFgqdkpIBAdgQuVuG3K9ah2e1118uZen/HAwQ==", null, false, "8bf23152-0616-4fd3-a2e6-3e0e7ae1a19e", false, "bsanderson" },
+                    { "c451fa23-21d9-4959-9e08-2040a3a00a80", 0, "da51de76-3d83-44e8-930d-b1a437223c89", "joe@sampson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEPpIGVY/ddTSTja9PXdNuMv1Ruewjlp3iQ1/Lfb/aFhhXVemCK7l6RloO2888cOz3A==", null, false, "3640334b-6a5e-4659-b34d-242730d2a568", false, "jsampson" },
+                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "d2e6f0c3-fa34-4c70-b1a3-94013d424584", "admina@strator.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEDCrNs3Q1Ta5fIxjONb5btsSm6mXmZKyoJYmIKFuSq+FvXMg9QGKWRzTyxKGhUOrHA==", null, false, "5b8902b7-c974-4148-97c9-8429a55885bb", false, "Administrator" },
+                    { "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", 0, "1907324d-0cc2-4b8f-9517-c8abb532952c", "winnie@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEOuD+hatFgJHV5RCpaINREmQktetrQOo017n+CTz2oIGGiL0YzLYU+MDiC1LSD2ctg==", null, false, "b3620a1c-12c2-4b22-869a-fef0e503e9f5", false, "wsanderson" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "CleaningJobs",
-                columns: new[] { "Id", "PropertyId", "UserProfileId" },
-                values: new object[] { 1, 1, 4 });
-
-            migrationBuilder.InsertData(
-                table: "Properties",
-                columns: new[] { "Id", "Address", "Description", "PropertyTypeId", "SqFt", "UserProfileId", "isActive" },
-                values: new object[] { 1, "15142 Mulholland Dr, Los Angeles, CA, 90077", "Rodney Walker designed mid-century located within prestigious Bel Air. This renovated and updated architectural gem is set up a private drive and boasts panoramic glass wall views of rolling hills, valley, and city lights from every location of its open floor plan. Skylights mixed with elements of glass, steel, concrete, and wood contrasted with the scenery give this home the outdoor feeling sought after by this masterful architect.", 1, 1542, 5, true });
 
             migrationBuilder.InsertData(
                 table: "PropertyTypes",
@@ -300,6 +316,28 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "UserProfiles",
+                columns: new[] { "Id", "Address", "FirstName", "IdentityUserId", "LastName" },
+                values: new object[,]
+                {
+                    { 1, "101 Main Street", "Admina", "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", "Strator" },
+                    { 2, "3517 Gerald L. Bates Drive", "Barry", "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", "Sanderson" },
+                    { 3, "2706 Hamilton Avenue", "Michael", "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", "Barrick" },
+                    { 4, "3517 Gerald L. Bates Drive", "Winnie", "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", "Sanderson" },
+                    { 5, "457 Haight Street", "Joe", "c451fa23-21d9-4959-9e08-2040a3a00a80", "Sampson" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Properties",
+                columns: new[] { "Id", "Address", "CleaningCost", "Description", "PropertyTypeId", "SqFt", "UserProfileId", "isActive" },
+                values: new object[] { 1, "15142 Mulholland Dr, Los Angeles, CA, 90077", 150.00m, "Rodney Walker designed mid-century located within prestigious Bel Air. This renovated and updated architectural gem is set up a private drive and boasts panoramic glass wall views of rolling hills, valley, and city lights from every location of its open floor plan. Skylights mixed with elements of glass, steel, concrete, and wood contrasted with the scenery give this home the outdoor feeling sought after by this masterful architect.", 1, 1542, 5, true });
+
+            migrationBuilder.InsertData(
+                table: "CleaningJobs",
+                columns: new[] { "Id", "Date", "PropertyId", "UserProfileId" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 4 });
+
+            migrationBuilder.InsertData(
                 table: "Images",
                 columns: new[] { "Id", "PropertyId", "Url" },
                 values: new object[,]
@@ -310,18 +348,6 @@ namespace capstone_server_side.Migrations
                     { 4, 1, "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp" },
                     { 5, 1, "https://photos.zillowstatic.com/fp/0779ac588dfeecf20adb1ff91724fb9a-uncropped_scaled_within_1536_1152.webp" },
                     { 6, 1, "https://photos.zillowstatic.com/fp/607dab54c778c9c420d3a7d905fdb485-uncropped_scaled_within_1536_1152.webp" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "UserProfiles",
-                columns: new[] { "Id", "Address", "FirstName", "IdentityUserId", "LastName" },
-                values: new object[,]
-                {
-                    { 1, "101 Main Street", "Admina", "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", "Strator" },
-                    { 2, "3517 Gerald L. Bates Drive", "Barry", "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", "Sanderson" },
-                    { 3, "2706 Hamilton Avenue", "Michael", "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", "Barrick" },
-                    { 4, "3517 Gerald L. Bates Drive", "Winnie", "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", "Sanderson" },
-                    { 5, "457 Haight Street", "Joe", "c451fa23-21d9-4959-9e08-2040a3a00a80", "Sampson" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -362,9 +388,29 @@ namespace capstone_server_side.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CleaningJobs_PropertyId",
+                table: "CleaningJobs",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CleaningJobs_UserProfileId",
+                table: "CleaningJobs",
+                column: "UserProfileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_PropertyId",
                 table: "Images",
                 column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_PropertyTypeId",
+                table: "Properties",
+                column: "PropertyTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_UserProfileId",
+                table: "Properties",
+                column: "UserProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_IdentityUserId",
@@ -396,16 +442,16 @@ namespace capstone_server_side.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "PropertyTypes");
-
-            migrationBuilder.DropTable(
-                name: "UserProfiles");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Properties");
+
+            migrationBuilder.DropTable(
+                name: "PropertyTypes");
+
+            migrationBuilder.DropTable(
+                name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
