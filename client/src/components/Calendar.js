@@ -5,9 +5,13 @@ import 'react-datepicker/dist/react-datepicker.css'
 export default function Calendar() {
 
     const [date, setDate] = useState(new Date());
+    const weekend = (date) => new Date() < date;
+
+
+
     return (
         <div>
-            <DatePicker selected={date} onChange={(date) => setDate=(date)} />
+            <DatePicker filterDate={weekend} selected={date} onChange={(date) => setDate=(date)} />
         </div>
     )
 }
