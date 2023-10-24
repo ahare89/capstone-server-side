@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getAvailableProperties } from "../../managers/propertyManager";
 import PropertyCard from "./PropertyCard";
 
-export const AvailablePropertiesList = ({ setDetailsPropertyId }) => {
+export const AvailablePropertiesList = ({ setDetailsPropertyId, loggedInUser}) => {
 
     const [availableProperties, setAvailableProperties] = useState([]);
 
@@ -16,6 +16,7 @@ export const AvailablePropertiesList = ({ setDetailsPropertyId }) => {
         {availableProperties.map(property => (<PropertyCard
         property={property}
         setDetailsPropertyId={setDetailsPropertyId}
+        loggedInUser={loggedInUser}
         key={`property-${property.id}`}/>
         ))}
         </>

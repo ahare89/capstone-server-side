@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Input, Table } from "reactstrap";
 import { editUserProfile, getUserProfileById } from "../managers/userProfileManager";
+import { Calendar } from "./Calendar";
 
 export default function MyProfile({ loggedInUser }) {
   const [editMode, setEditMode] = useState(false);
@@ -129,8 +130,8 @@ export default function MyProfile({ loggedInUser }) {
         <>
           <Button
             onClick={handleEditButton}
-            style={{ marginLeft: "6.6em" }}
-            className="btn btn-success container"
+            className="btn btn-success"
+            style={{marginLeft: '40em'}}
           >
             Edit Profile
           </Button>

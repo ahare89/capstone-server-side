@@ -31,7 +31,7 @@ return (
             <Nav navbar>
                 <NavItem className="navlink">
                 {loggedInUser?.roles.includes("Cleaner", "Admin") && (
-                    <NavLink tag={RRNavLink} to="/cleanme">
+                    <NavLink tag={RRNavLink} to="/available">
                         Available for Cleaning
                     </NavLink>)}
                 </NavItem>

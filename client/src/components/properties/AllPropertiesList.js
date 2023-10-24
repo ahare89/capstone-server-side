@@ -24,14 +24,18 @@ export const AllPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
 
   return (
     <>
-      <h2>Properties</h2>
-      {allProperties.map((property) => (
-        <PropertyCard
+      <h2>Listings</h2>
+      {allProperties.length > 0 ? (
+      allProperties.map((property) => (<PropertyCard
           property={property}
           setDetailsPropertyId={setDetailsPropertyId}
-          key={`property-${property.id}`}
-        ></PropertyCard>
-      ))}
+          getAllProperties={getAllProperties}
+          setAllProperties={setAllProperties}
+          loggedInUser={loggedInUser}
+          key={`property-${property.id}`}/>
+      )))
+          : (
+            <p>No listings found</p>)}
       {addPropertyButton ? (
         <>
           <AddAProperty

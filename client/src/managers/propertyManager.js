@@ -30,3 +30,11 @@ export const deleteAProperty = (id) => {
         headers: {'Content-Type' : 'application/json'}
     })
 }
+
+export const editAProperty = (id, property) => {
+    return fetch(`${_apiUrl}/${id}`, {
+        method: "PUT",
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify(property)
+    })
+}
