@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { getAllProperties, getPropertiesForUser } from "../../managers/propertyManager";
 import PropertyCard from "./PropertyCard";
 import { Button } from "reactstrap";
@@ -11,6 +11,7 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
     const [myProperties, setMyProperties] = useState([]);
     const [addPropertyButton, setAddPropertyButton] = useState(false);
     const [allProperties, setAllProperties] = useState([]);
+    const addPropertyRef = useRef(null)
 
        useEffect(() => {
         getPropertiesForUser(loggedInUser.id).then(setMyProperties);
@@ -19,8 +20,17 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
 
     const handleAddButton = (e) => {
         e.preventDefault();
-        setAddPropertyButton(true)
-    }
+        setAddPropertyButton(true);
+    
+        setTimeout(() => {
+            if (addPropertyRef.current) {
+                window.scrollTo({
+                    top: addPropertyRef.current.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100); // 100ms delay
+    };
 
     const handleCancelButton = (e) => {
         e.preventDefault();
@@ -43,7 +53,8 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
         <p>No listings found</p>)}
         {addPropertyButton ? 
         <>
-        <AddAProperty getAllProperties={getAllProperties} setAllProperties={setAllProperties} loggedInUser={loggedInUser}/>
+        <AddAProperty addPropertyRef={addPropertyRef} getAllProperties={getAllProperties} setAllProperties={setAllProperties} 
+        loggedInUser={loggedInUser} myProperties={myProperties} setMyProperties={setMyProperties} setAddPropertyButton={setAddPropertyButton}/>
         <Button onClick={handleCancelButton} className="btn btn-danger">Cancel</Button>
         </>
         :

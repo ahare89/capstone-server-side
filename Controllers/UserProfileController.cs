@@ -23,7 +23,7 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
+    // [Authorize]
     public IActionResult Get()
     {
         return Ok(_dbContext.UserProfiles.ToList());

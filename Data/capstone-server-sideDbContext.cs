@@ -194,7 +194,8 @@ public class capstoneDbContext : IdentityDbContext<IdentityUser>
                 SqFt = 1542,
                 Description = "Rodney Walker designed mid-century located within prestigious Bel Air. This renovated and updated architectural gem is set up a private drive and boasts panoramic glass wall views of rolling hills, valley, and city lights from every location of its open floor plan. Skylights mixed with elements of glass, steel, concrete, and wood contrasted with the scenery give this home the outdoor feeling sought after by this masterful architect.",
                 PropertyTypeId = 1,
-                isActive = true
+                isActive = true,
+                CleaningCost = 150.00M
             }
 
         });
