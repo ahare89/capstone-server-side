@@ -8,6 +8,7 @@ import ApplicationViews from "./components/ApplicationViews";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState();
+  const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
     // user will be null if not authenticated

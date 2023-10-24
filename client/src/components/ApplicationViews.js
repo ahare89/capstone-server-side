@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useRoutes } from "react-router-dom";
 import { AuthorizedRoute } from "./auth/AuthorizedRoute";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
@@ -9,8 +9,10 @@ import { AvailablePropertiesList } from "./properties/AvailablePropertiesList";
 import { AllPropertiesList } from "./properties/AllPropertiesList";
 import MyProfile from "./MyProfile";
 import { MyPropertiesList } from "./properties/MyPropertiesList";
+import PropertyDetails from "./properties/PropertyDetails";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
+
   return (
     <Routes>
       <Route
@@ -23,10 +25,10 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         index
       />
       <Route
-      path="/cleanme"
+      path="/available"
       element={
         <AuthorizedRoute roles= {["Cleaner", "Admin"]} loggedInUser={loggedInUser}>
-          <AvailablePropertiesList/>
+          <AvailablePropertiesList loggedInUser={loggedInUser}/>
         </AuthorizedRoute>
       }>
         </Route>
@@ -53,6 +55,24 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           <MyPropertiesList loggedInUser={loggedInUser}/>
         </AuthorizedRoute>
       }>
+        </Route>
+        <Route
+        path="/properties/property/:id"
+        element={<AuthorizedRoute roles={["Host", "Admin"]} loggedInUser={loggedInUser}>
+        <PropertyDetails loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
+      </Route>
+      <Route
+        path="available/property/:id"
+        element={<AuthorizedRoute roles={["Cleaner", "Admin"]} loggedInUser={loggedInUser}>
+        <PropertyDetails loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
+      </Route>
+        <Route
+        path="myproperties/property/:id"
+        element={<AuthorizedRoute roles={["Host", "Admin"]} loggedInUser={loggedInUser}>
+        <PropertyDetails loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
       </Route>
       <Route
         path="/userprofiles"

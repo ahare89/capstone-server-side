@@ -4,6 +4,8 @@ import PropertyCard from "./PropertyCard";
 import { Button } from "reactstrap";
 import { AddAProperty } from "./AddAProperty";
 
+
+
 export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
 
     const [myProperties, setMyProperties] = useState([]);
@@ -27,7 +29,7 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
 
     return (
         <>
-        <h2>Properties</h2>
+        <h2>Listings</h2>
         {myProperties.length > 0 ? (
         myProperties.map((property) => (<PropertyCard
         property={property}
@@ -38,7 +40,7 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
         key={`property-${property.id}`}/>
         )))
         : (
-        <p>No properties found</p>)}
+        <p>No listings found</p>)}
         {addPropertyButton ? 
         <>
         <AddAProperty getAllProperties={getAllProperties} setAllProperties={setAllProperties} loggedInUser={loggedInUser}/>

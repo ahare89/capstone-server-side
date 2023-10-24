@@ -11,6 +11,7 @@ import {
   getAllProperties,
   postAProperty,
 } from "../../managers/propertyManager";
+import { PostAnImage } from "../../managers/ImageManager";
 
 export const AddAProperty = ({
   loggedInUser,
@@ -18,13 +19,17 @@ export const AddAProperty = ({
   setAllProperties,
 }) => {
   const [propertyTypes, setPropertyTypes] = useState([]);
+  const [newImage, setNewImage] = useState({
+    url: "",
+    propertyId: null
+  })
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const [newProperty, setNewProperty] = useState({
     address: "",
     userProfileId: loggedInUser.id,
-    sqFt: "",
+    sqFt: 0,
     description: "",
     propertyTypeId: "",
     isActive: false,
@@ -35,9 +40,28 @@ export const AddAProperty = ({
     getPropertyTypes().then(setPropertyTypes);
   }, []);
 
-  const handleSubmit = (newProperty) => {
-    postAProperty(newProperty);
-    getAllProperties().then(setAllProperties);
+  const handleSubmit = async (e, newProperty, newImage) => {
+    e.preventDefault();
+    try {
+        const response = await postAProperty(newProperty)
+        console.log("response status", response.status)
+        if (response.status === 201) {
+            const propertyData = await response.json();
+            const propertyId = propertyData.id;
+            
+            await PostAnImage({...newImage, propertyId})
+
+            const properties = await getAllProperties();
+            setAllProperties(properties);
+            
+        }   else {
+            console.error("Failed to create property or image")
+        }
+        }
+        catch (error) {
+            console.error("Error", error)
+    }
+    
   };
 
   const handleChange = (e) => {
@@ -46,7 +70,13 @@ export const AddAProperty = ({
         ...prev,
         [e.target.name]: e.target.checked,
       }));
-    } else {
+    } else if (e.target.name === "sqFt"){
+        const sqFtValue = parseInt(e.target.value)
+        setNewProperty((prev) => ({
+            ...prev,
+            [e.target.name]: sqFtValue,
+    }))
+     } else {
       setNewProperty((prev) => ({
         ...prev,
         [e.target.name]: e.target.value,
@@ -54,10 +84,17 @@ export const AddAProperty = ({
     }
   };
 
+  const handleImageUpdate = (e) => {
+    setNewImage((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value
+    }))
+  }
+
   return (
     <>
-      <h2 className="container">Add a Property!</h2>
-      <Form onSubmit={handleSubmit} className="container">
+      <h2 className="container">Add a Listing!</h2>
+      <Form onSubmit={(e) => handleSubmit(e, newProperty, newImage)} className="container">
         <FormGroup>
           <Label>Address</Label>
           <Input
@@ -116,21 +153,18 @@ export const AddAProperty = ({
             name="isActive"
             onChange={handleChange}
           />
-          {/* <div>
-            <Label>Image URLs</Label>
+          <div>
+            <Label>Image URL</Label>
             <Input
               type="text"
-              name="images"
-              htmlFor="images"
+              name="url"
               placeholder="www.google.com"
-              onChange={handleChange}
+              onChange={handleImageUpdate}
             />
           </div>
-          <Button className="btn btn-info">Add Another Image?</Button> */}
         </FormGroup>
         <Button
           className="btn btn-warning"
-          onClick={() => handleSubmit(newProperty)}
           type="submit"
         >
           Submit
