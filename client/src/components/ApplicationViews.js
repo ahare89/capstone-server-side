@@ -10,6 +10,9 @@ import { AllPropertiesList } from "./properties/AllPropertiesList";
 import MyProfile from "./MyProfile";
 import { MyPropertiesList } from "./properties/MyPropertiesList";
 import PropertyDetails from "./properties/PropertyDetails";
+import { CleanerSchedule } from "./CleanerSchedule";
+import { Messages } from "./properties/Messages";
+import { NewMessage } from "./NewMessage";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
 
@@ -74,6 +77,24 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         <PropertyDetails loggedInUser={loggedInUser}/>
       </AuthorizedRoute>}>
       </Route>
+      <Route
+        path="myschedule"
+        element={<AuthorizedRoute roles={["Cleaner", "Admin"]} loggedInUser={loggedInUser}>
+        <CleanerSchedule loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
+      </Route>  
+      <Route
+        path="messages"
+        element={<AuthorizedRoute roles={["Cleaner", "Host"]} loggedInUser={loggedInUser}>
+        <Messages loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
+      </Route>   
+      <Route
+        path="newmessage"
+        element={<AuthorizedRoute roles={["Cleaner", "Host"]} loggedInUser={loggedInUser}>
+        <NewMessage loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
+      </Route>     
       <Route
         path="/userprofiles"
         element={

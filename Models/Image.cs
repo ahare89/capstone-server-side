@@ -1,4 +1,4 @@
-using capstone.Models;
+namespace capstone.Models;
 
 public class Image {
     public int Id { get; set; }

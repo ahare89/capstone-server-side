@@ -13,6 +13,8 @@ public class capstoneDbContext : IdentityDbContext<IdentityUser>
     public DbSet<CleaningJob> CleaningJobs { get; set; }
     public DbSet<PropertyType> PropertyTypes { get; set; }
     public DbSet<Image> Images { get; set; }
+
+    public DbSet<Message> Messages { get; set; }
      
 
     public capstoneDbContext(DbContextOptions<capstoneDbContext> context, IConfiguration config) : base(context)

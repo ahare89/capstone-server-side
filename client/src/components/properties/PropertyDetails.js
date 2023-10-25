@@ -33,6 +33,8 @@ export default function PropertyDetails({ loggedInUser}) {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const [checked, setChecked] = useState(false)
 
+  console.log(loggedInUser.id)
+
 
   useEffect(() => {
     if (editAddressButton === false)
@@ -41,8 +43,14 @@ export default function PropertyDetails({ loggedInUser}) {
     }
   },[property])
 
-  console.log(property)
-  console.log(loggedInUser)
+  useEffect(() => {
+    console.log(date)
+    setNewCleaningJob({
+        propertyId: parseInt(id),
+        userProfileId: loggedInUser.id,
+        date: date
+    })
+  },[date])
 
   const getPropertyDetails = (id) => {
     getPropertyById(id).then(setProperty);
@@ -157,13 +165,18 @@ const handleSubmitButton = (newImage, propertyId) => {
     
 }
 
-const handleDateSubmitButton = (newCleaningJob, id, userProfileId) => {
+const handleDateSubmitButton = (newCleaningJob) => {
+    
+    postAJob(newCleaningJob)
+}
+
+const handleCalendarClick = (id, userProfileId) => {
+    console.log("You clicked the calendar")
     setNewCleaningJob({
-        propertyId: id,
+        propertyId: parseInt(id),
         userProfileId: userProfileId,
         date: date
     })
-    postAJob(newCleaningJob)
 }
 
 
@@ -283,8 +296,8 @@ const handleDateSubmitButton = (newCleaningJob, id, userProfileId) => {
           <Button onClick={handleCancelEditCostButton} className="btn btn-danger btn btn-sm">Cancel</Button>
           <Button onClick={handleSaveCostButton} className="btn btn-success btn btn-sm">Save</Button>
           </>
-            ) : <p>Cleaning Payment: ${property.cleaningCost}</p>}     
-          <p>Host: {property.userProfile.firstName + " " + property.userProfile.lastName}</p>
+            ) : <p>Cleaning Payment: ${property?.cleaningCost}</p>}     
+          <p>Host: {property?.userProfile?.firstName + " " + property?.userProfile?.lastName}</p>
           {property?.images?.map(i => (
           <> <img key={i.index} className="img" style={{width: '200px', height: '200px'}} src={i.url}/> 
           {
@@ -317,8 +330,8 @@ const handleDateSubmitButton = (newCleaningJob, id, userProfileId) => {
         }
         <>
         <p>
-            <Calendar handleDateSubmitButton={handleDateSubmitButton} propertyId={id} userProfileId={property.userProfileId} 
-            newCleaningJob={newCleaningJob} date={date} setDate={setDate}/>
+            <Calendar onClick={handleCalendarClick} handleDateSubmitButton={handleDateSubmitButton} propertyId={id} userProfileId={property.userProfileId} 
+            newCleaningJob={newCleaningJob} date={date} setDate={setDate} loggedInUser={loggedInUser}/>
         </p>
         </>
       </Card>
