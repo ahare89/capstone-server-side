@@ -57,6 +57,93 @@ namespace capstone_server_side.Migrations
                         });
                 });
 
+            modelBuilder.Entity("capstone.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PropertyId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PropertyId");
+
+                    b.ToTable("Images");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PropertyId = 1,
+                            Url = "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PropertyId = 1,
+                            Url = "https://photos.zillowstatic.com/fp/120013c596711cbe3e39b5e1bb8881a2-uncropped_scaled_within_1536_1152.webp"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PropertyId = 1,
+                            Url = "https://photos.zillowstatic.com/fp/f8502efdafe6a682646d832ad9c3641b-uncropped_scaled_within_1536_1152.webp"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            PropertyId = 1,
+                            Url = "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            PropertyId = 1,
+                            Url = "https://photos.zillowstatic.com/fp/0779ac588dfeecf20adb1ff91724fb9a-uncropped_scaled_within_1536_1152.webp"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            PropertyId = 1,
+                            Url = "https://photos.zillowstatic.com/fp/607dab54c778c9c420d3a7d905fdb485-uncropped_scaled_within_1536_1152.webp"
+                        });
+                });
+
+            modelBuilder.Entity("capstone.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("capstone.Models.Property", b =>
                 {
                     b.Property<int>("Id")
@@ -232,66 +319,6 @@ namespace capstone_server_side.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertyId");
-
-                    b.ToTable("Images");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            PropertyId = 1,
-                            Url = "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            PropertyId = 1,
-                            Url = "https://photos.zillowstatic.com/fp/120013c596711cbe3e39b5e1bb8881a2-uncropped_scaled_within_1536_1152.webp"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            PropertyId = 1,
-                            Url = "https://photos.zillowstatic.com/fp/f8502efdafe6a682646d832ad9c3641b-uncropped_scaled_within_1536_1152.webp"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            PropertyId = 1,
-                            Url = "https://photos.zillowstatic.com/fp/6d17c3a534ab7a2ac07162af284921a1-uncropped_scaled_within_1536_1152.webp"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            PropertyId = 1,
-                            Url = "https://photos.zillowstatic.com/fp/0779ac588dfeecf20adb1ff91724fb9a-uncropped_scaled_within_1536_1152.webp"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            PropertyId = 1,
-                            Url = "https://photos.zillowstatic.com/fp/607dab54c778c9c420d3a7d905fdb485-uncropped_scaled_within_1536_1152.webp"
-                        });
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -321,21 +348,21 @@ namespace capstone_server_side.Migrations
                         new
                         {
                             Id = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35",
-                            ConcurrencyStamp = "b123b2ce-a22d-4602-9d04-6436a87f51dd",
+                            ConcurrencyStamp = "49a7bae7-be3f-4927-9e55-f433e8410882",
                             Name = "Admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
                             Id = "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36",
-                            ConcurrencyStamp = "1d2aaf1f-08cd-412f-b8b6-6094cdb68f66",
+                            ConcurrencyStamp = "29debea9-99af-4eaf-8952-947d3d965571",
                             Name = "Host",
                             NormalizedName = "host"
                         },
                         new
                         {
                             Id = "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5",
-                            ConcurrencyStamp = "4c76a2c9-3146-491b-8daf-ca5ccbd6a8d7",
+                            ConcurrencyStamp = "1bd7f879-c829-48b2-96d9-204b1c66b878",
                             Name = "Cleaner",
                             NormalizedName = "cleaner"
                         });
@@ -434,13 +461,13 @@ namespace capstone_server_side.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2e6f0c3-fa34-4c70-b1a3-94013d424584",
+                            ConcurrencyStamp = "8dfcd8f8-a8ef-4f1a-a2f9-c8f410f257e0",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEDCrNs3Q1Ta5fIxjONb5btsSm6mXmZKyoJYmIKFuSq+FvXMg9QGKWRzTyxKGhUOrHA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENcH7ASr2JYlkCEdk1LhMyVbPoeIS+6bDvk0wFCqVATrjzqRahU+fyQwQRc0HLHQtQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5b8902b7-c974-4148-97c9-8429a55885bb",
+                            SecurityStamp = "2f0b536e-3f7d-41d0-b7f9-7372d563fcdf",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         },
@@ -448,13 +475,13 @@ namespace capstone_server_side.Migrations
                         {
                             Id = "a5fe6012-4e5d-4319-a5e3-62c0802f83b0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a2982db0-5a5f-4e55-a54a-6a23b0a12e3a",
+                            ConcurrencyStamp = "f57b3c27-0c92-4134-a03c-272cc798fcda",
                             Email = "barry@sanderson.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEENFwNageIfx81UIuWjbudFaLjIeGLFgqdkpIBAdgQuVuG3K9ah2e1118uZen/HAwQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKw+nRAU+TRJ3ZkDMrR2hJ9xhhyhFFnTGYSoMrMDUjR03R0rCral/2TbvBaEil6MwQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8bf23152-0616-4fd3-a2e6-3e0e7ae1a19e",
+                            SecurityStamp = "1d04e352-e6a8-4d07-95f4-444f20348968",
                             TwoFactorEnabled = false,
                             UserName = "bsanderson"
                         },
@@ -462,13 +489,13 @@ namespace capstone_server_side.Migrations
                         {
                             Id = "89b6e28a-98df-46b6-9dcb-3f7996f4d29f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3b72a51d-a209-4e25-9878-a7c1f17f7660",
+                            ConcurrencyStamp = "eb6f225e-889b-490b-97e7-6e2df4a37521",
                             Email = "michael@barrick.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEKPtlOpzF61YIXlftl0nxPYcT/xSR7uL+iAem/XmR1YG4S7zafu0hjtM1nbyfen1jQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBwtBuzFLRC/lmGcB0H6OeUy9WxzmPRawdmXR8FNGBh16dfshaK/sYJ8qUyq5dL2IQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "77014b18-2f6b-4324-914b-31a10b3ceee0",
+                            SecurityStamp = "346cf332-e41f-47f4-a8e1-37735ea30709",
                             TwoFactorEnabled = false,
                             UserName = "mbarrick"
                         },
@@ -476,13 +503,13 @@ namespace capstone_server_side.Migrations
                         {
                             Id = "f9c38e11-ae67-483a-a2a7-88e1d3c917d6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1907324d-0cc2-4b8f-9517-c8abb532952c",
+                            ConcurrencyStamp = "ed623d78-6257-4fd8-8959-2824aead58dd",
                             Email = "winnie@sanderson.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEOuD+hatFgJHV5RCpaINREmQktetrQOo017n+CTz2oIGGiL0YzLYU+MDiC1LSD2ctg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFkg3+3suOVunlDi61E3TjRSqMxPZe8TjYAT05y91pPiyq/MUXLDnprzC5GH8lm5vg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b3620a1c-12c2-4b22-869a-fef0e503e9f5",
+                            SecurityStamp = "e4033f02-4232-4955-b8ca-4823e3146ee0",
                             TwoFactorEnabled = false,
                             UserName = "wsanderson"
                         },
@@ -490,13 +517,13 @@ namespace capstone_server_side.Migrations
                         {
                             Id = "c451fa23-21d9-4959-9e08-2040a3a00a80",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "da51de76-3d83-44e8-930d-b1a437223c89",
+                            ConcurrencyStamp = "ebb7b32c-46de-48fd-b987-449855439c77",
                             Email = "joe@sampson.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPpIGVY/ddTSTja9PXdNuMv1Ruewjlp3iQ1/Lfb/aFhhXVemCK7l6RloO2888cOz3A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEICMzQoZ5welspw4OomirtiEA+5vtvDKpeu1bcPacSbaP+XtghMJDiWdr/AyTQBCvA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3640334b-6a5e-4659-b34d-242730d2a568",
+                            SecurityStamp = "e49ec6c6-3424-42d5-bedf-41181056faec",
                             TwoFactorEnabled = false,
                             UserName = "jsampson"
                         });
@@ -629,6 +656,17 @@ namespace capstone_server_side.Migrations
                     b.Navigation("UserProfile");
                 });
 
+            modelBuilder.Entity("capstone.Models.Image", b =>
+                {
+                    b.HasOne("capstone.Models.Property", "Property")
+                        .WithMany("Images")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Property");
+                });
+
             modelBuilder.Entity("capstone.Models.Property", b =>
                 {
                     b.HasOne("capstone.Models.PropertyType", "PropertyType")
@@ -657,17 +695,6 @@ namespace capstone_server_side.Migrations
                         .IsRequired();
 
                     b.Navigation("IdentityUser");
-                });
-
-            modelBuilder.Entity("Image", b =>
-                {
-                    b.HasOne("capstone.Models.Property", "Property")
-                        .WithMany("Images")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

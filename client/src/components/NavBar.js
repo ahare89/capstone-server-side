@@ -36,6 +36,18 @@ return (
                     </NavLink>)}
                 </NavItem>
                 <NavItem className="navlink">
+                {loggedInUser?.roles.includes("Cleaner") && (
+                    <NavLink tag={RRNavLink} to="/myschedule">
+                        My Schedule
+                    </NavLink>)}
+                </NavItem>
+                <NavItem className="navlink">
+                {loggedInUser?.roles.includes("Cleaner", "Host") && (
+                    <NavLink tag={RRNavLink} to="/messages">
+                        Messages
+                    </NavLink>)}
+                </NavItem>
+                <NavItem className="navlink">
                 {loggedInUser?.roles.includes("Admin") && (
                     <NavLink tag={RRNavLink} to="/properties">
                         All Properties

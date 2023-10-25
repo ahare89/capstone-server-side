@@ -27,7 +27,6 @@ export default function MyProfile({ loggedInUser }) {
     fetchUserProfile();
   }, [loggedInUser.id]);
 
-  console.log(userProfile);
 
   const handleEditButton = () => {
     setEditMode(true);
