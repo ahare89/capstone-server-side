@@ -25,16 +25,19 @@ public class MessageController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
+    // [Authorize]
 
     public IActionResult GetMessages(){
 
-    return Ok(_dbContext.Messages.ToList());
+    return Ok(_dbContext.Messages
+    .Include(m => m.Recipient)
+    .Include(m => m.Sender)
+    .ToList());
 
     }
 
     [HttpPost]
-    [Authorize]
+    // [Authorize]
 
     public IActionResult CreateMessage(Message newMessage)
     {
@@ -52,9 +55,25 @@ public class MessageController : ControllerBase
     public IActionResult GetMessagesForUser(int id){
         
         List<Message> foundMessages = new List<Message>();
-        foundMessages = _dbContext.Messages.Where(m => m.ReceiverId == id).ToList();
+        foundMessages = _dbContext.Messages
+        .Include(m => m.Recipient)
+        .Include(m => m.Sender)
+        .Where(m => m.RecipientId == id).ToList();
         return Ok(foundMessages);
 
     }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+
+    public IActionResult DeleteMessage(int id)
+    {
+        Message messageToDelete = _dbContext.Messages.SingleOrDefault(m => m.Id == id);
+        _dbContext.Messages.Remove(messageToDelete);
+        _dbContext.SaveChanges();
+
+        return NoContent();
+    }
+
 
 }

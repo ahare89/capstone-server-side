@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-import { getUserProfiles } from "../managers/userProfileManager";
+import { getUserProfiles } from "../../managers/userProfileManager";
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import { createNewMessage } from "../managers/messageManager";
+import { createNewMessage } from "../../managers/messageManager";
 import { useNavigate } from "react-router-dom";
 
 export const NewMessage = ({ loggedInUser }) => {
@@ -52,7 +52,7 @@ export const NewMessage = ({ loggedInUser }) => {
           <div className="container" style={{ padding: "8px" }}>
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle caret color="success">
-                {userProfiles.find((up) => up.id === message.receiverId)
+                {userProfiles.find((up) => up.id === message.recipientId)
                   ?.firstName || "Recipient"}
               </DropdownToggle>
               <DropdownMenu dark>
@@ -63,7 +63,7 @@ export const NewMessage = ({ loggedInUser }) => {
                     onClick={() =>
                       setMessage((prev) => 
                       ({ ...prev, 
-                        receiverId: up.id }))
+                        recipientId: up.id }))
                     }
                   >
                     {up.firstName + " " + up.lastName}

@@ -11,8 +11,9 @@ import MyProfile from "./MyProfile";
 import { MyPropertiesList } from "./properties/MyPropertiesList";
 import PropertyDetails from "./properties/PropertyDetails";
 import { CleanerSchedule } from "./CleanerSchedule";
-import { Messages } from "./properties/Messages";
-import { NewMessage } from "./NewMessage";
+import { Messages } from "./messages/Messages";
+import { NewMessage } from "./messages/NewMessage";
+import { ScheduledCleanings } from "./ScheduledCleanings";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
 
@@ -84,8 +85,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
       </AuthorizedRoute>}>
       </Route>  
       <Route
+        path="scheduled"
+        element={<AuthorizedRoute roles={["Host", "Admin"]} loggedInUser={loggedInUser}>
+        <ScheduledCleanings loggedInUser={loggedInUser}/>
+      </AuthorizedRoute>}>
+      </Route> 
+      <Route
         path="messages"
-        element={<AuthorizedRoute roles={["Cleaner", "Host"]} loggedInUser={loggedInUser}>
+        element={<AuthorizedRoute roles={["Cleaner", "Host", "Admin"]} loggedInUser={loggedInUser}>
         <Messages loggedInUser={loggedInUser}/>
       </AuthorizedRoute>}>
       </Route>   

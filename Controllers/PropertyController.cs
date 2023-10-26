@@ -24,8 +24,8 @@ public class PropertyController : ControllerBase
         _dbContext = context;
     }
 
-    // [HttpGet]
-    [Authorize]
+    [HttpGet]
+    // [Authorize]
     public IActionResult GetProperties()
     {
 
@@ -84,7 +84,7 @@ public class PropertyController : ControllerBase
             .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
             .ToList()
         })
-        .SingleOrDefault(up => up.Id == id);
+        .SingleOrDefault(up => up.Id == foundProperty.UserProfileId);
 
         foundProperty.UserProfile = foundUserProfile;
 
@@ -105,6 +105,21 @@ public class PropertyController : ControllerBase
         .Include(p => p.Images)
         .Include(p => p.PropertyType)
         .Include(p => p.UserProfile)
+        .Include(p => p.CleaningJobs)
+        .ThenInclude(cj => cj.UserProfile)
+        .Select(p => new {
+            Id = p.Id,
+            Address = p.Address,
+            UserProfileId = p.UserProfileId,
+            Description = p.Description,
+            PropertyTypeId = p.PropertyTypeId,
+            isActive = p.isActive,
+            CleaningCost = p.CleaningCost,
+            CleaningJobs = p.CleaningJobs.OrderBy(cj => cj.Date).ToList(),
+            Images = p.Images,
+            SqFt = p.SqFt
+
+        })
         .Where(p => p.UserProfileId == userId));
     }
 

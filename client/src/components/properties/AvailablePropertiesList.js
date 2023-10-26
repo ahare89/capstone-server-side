@@ -12,7 +12,7 @@ export const AvailablePropertiesList = ({ setDetailsPropertyId, loggedInUser}) =
 
     return (
         <>
-        <h2>Available Properties for Cleaning</h2>
+        <h2>Properties Available For Cleaning</h2>
         {availableProperties.map(property => (<PropertyCard
         property={property}
         setDetailsPropertyId={setDetailsPropertyId}

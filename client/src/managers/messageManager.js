@@ -1,4 +1,4 @@
-import { NewMessage } from "../components/NewMessage";
+import { NewMessage } from "../components/messages/NewMessage";
 
 const _apiUrl = "/api/message"
 
@@ -19,3 +19,9 @@ export const getMessagesForUser = (id) => {
     return fetch(`${_apiUrl}/${id}`).then(res => res.json());
 }
 
+export const deleteMessage = (id) => {
+    return fetch(`${_apiUrl}/${id}`, {
+        method: "DELETE",
+        headers: {'Content-Type' : 'application/json'}
+    })
+}
