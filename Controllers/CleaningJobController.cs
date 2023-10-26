@@ -67,6 +67,7 @@ public class CleaningJobController: ControllerBase
     {
         return Ok(_dbContext.CleaningJobs
         .Include(cj => cj.Property)
+        .ThenInclude(p => p.UserProfile)
         .Include(cj => cj.UserProfile)
         .Where(cj => cj.PropertyId == propertyId)
         .ToList());

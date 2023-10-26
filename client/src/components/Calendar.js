@@ -27,7 +27,9 @@ export default function Calendar({handleDateSubmitButton, propertyId, userProfil
         <>
         <h4>Available Cleaning Dates:</h4>
             <DatePicker filterDate={takenDates} selected={date} onChange={(date) => setDate(date)} />
+        {loggedInUser.roles.includes("Cleaner") ? (
         <Button onClick={() => handleDateSubmitButton(newCleaningJob)} className='btn btn-success'>Submit</Button>        
+        ) : "" }
         </>
     )
 }

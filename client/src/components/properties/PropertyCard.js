@@ -41,9 +41,9 @@ import "./PropertyCard.css"
                 <CardSubtitle className="mb-2 text-muted" tag="h6">
                 </CardSubtitle>
                 <CardText>Square Feet: {property?.sqFt}</CardText>
-                <CardText>Cleaning Fee: ${property?.cleaningCost}</CardText>
+                <CardText>Cleaning Payment: ${property?.cleaningCost}</CardText>
                 <CardText>
-                {property?.images.map(pi => <img key={pi.id} style={{width: '200px', height: '200px'}} className="img" src={pi.url}/>)}
+                {property?.images.map(pi => <img key={pi.id} style={{width: '250px', height: '250px'}} className="img" src={pi.url}/>)}
                 </CardText>
                 <Button className="btn btn-sm" color="info"
                 onClick={() => {

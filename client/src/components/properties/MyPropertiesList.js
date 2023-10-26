@@ -29,7 +29,7 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
                     behavior: 'smooth'
                 });
             }
-        }, 100); // 100ms delay
+        }, 100);
     };
 
     const handleCancelButton = (e) => {
@@ -39,7 +39,7 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
 
     return (
         <>
-        <h2>Listings</h2>
+        <h2>My Listings</h2>
         {myProperties.length > 0 ? (
         myProperties.map((property) => (<PropertyCard
         property={property}

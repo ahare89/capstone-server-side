@@ -50,22 +50,6 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SenderId = table.Column<int>(type: "integer", nullable: false),
-                    ReceiverId = table.Column<int>(type: "integer", nullable: false),
-                    Content = table.Column<string>(type: "text", nullable: false),
-                    Subject = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PropertyTypes",
                 columns: table => new
                 {
@@ -207,6 +191,34 @@ namespace capstone_server_side.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SenderId = table.Column<int>(type: "integer", nullable: false),
+                    RecipientId = table.Column<int>(type: "integer", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Subject = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_UserProfiles_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "UserProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Messages_UserProfiles_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "UserProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Properties",
                 columns: table => new
                 {
@@ -289,9 +301,9 @@ namespace capstone_server_side.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36", "29debea9-99af-4eaf-8952-947d3d965571", "Host", "host" },
-                    { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "49a7bae7-be3f-4927-9e55-f433e8410882", "Admin", "admin" },
-                    { "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5", "1bd7f879-c829-48b2-96d9-204b1c66b878", "Cleaner", "cleaner" }
+                    { "1a6a6a8c-8e5c-4bf2-9cb5-9c93e4d17b36", "c9bf8ae1-b311-4123-8ed6-aae67905bb62", "Host", "host" },
+                    { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "7367e49f-c059-4469-87a3-4a72cbcbaa9d", "Admin", "admin" },
+                    { "f0a7b0d7-25ab-4f2e-a9a4-6e84e99897c5", "9cdc14a3-06f1-49ae-8167-4682f5ce637f", "Cleaner", "cleaner" }
                 });
 
             migrationBuilder.InsertData(
@@ -299,11 +311,11 @@ namespace capstone_server_side.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", 0, "eb6f225e-889b-490b-97e7-6e2df4a37521", "michael@barrick.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEBwtBuzFLRC/lmGcB0H6OeUy9WxzmPRawdmXR8FNGBh16dfshaK/sYJ8qUyq5dL2IQ==", null, false, "346cf332-e41f-47f4-a8e1-37735ea30709", false, "mbarrick" },
-                    { "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", 0, "f57b3c27-0c92-4134-a03c-272cc798fcda", "barry@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEKw+nRAU+TRJ3ZkDMrR2hJ9xhhyhFFnTGYSoMrMDUjR03R0rCral/2TbvBaEil6MwQ==", null, false, "1d04e352-e6a8-4d07-95f4-444f20348968", false, "bsanderson" },
-                    { "c451fa23-21d9-4959-9e08-2040a3a00a80", 0, "ebb7b32c-46de-48fd-b987-449855439c77", "joe@sampson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEICMzQoZ5welspw4OomirtiEA+5vtvDKpeu1bcPacSbaP+XtghMJDiWdr/AyTQBCvA==", null, false, "e49ec6c6-3424-42d5-bedf-41181056faec", false, "jsampson" },
-                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "8dfcd8f8-a8ef-4f1a-a2f9-c8f410f257e0", "admina@strator.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAENcH7ASr2JYlkCEdk1LhMyVbPoeIS+6bDvk0wFCqVATrjzqRahU+fyQwQRc0HLHQtQ==", null, false, "2f0b536e-3f7d-41d0-b7f9-7372d563fcdf", false, "Administrator" },
-                    { "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", 0, "ed623d78-6257-4fd8-8959-2824aead58dd", "winnie@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEFkg3+3suOVunlDi61E3TjRSqMxPZe8TjYAT05y91pPiyq/MUXLDnprzC5GH8lm5vg==", null, false, "e4033f02-4232-4955-b8ca-4823e3146ee0", false, "wsanderson" }
+                    { "89b6e28a-98df-46b6-9dcb-3f7996f4d29f", 0, "045ea8cb-b8c7-4874-ab2d-379851d6b924", "michael@barrick.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEOwh3P+eFhnJ/opLeFez/aaTdP8yIhuVv6GzoIkA/UaxR3H6OvTRGWzMcluCcZ+mkA==", null, false, "1bc11b5d-cbfb-4122-a217-e0b46df25f43", false, "mbarrick" },
+                    { "a5fe6012-4e5d-4319-a5e3-62c0802f83b0", 0, "1335c731-960e-4873-a6d1-eff22ee16c16", "barry@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEPRliFT9ux0DTjBX12JIhtnA4xpkKUyv//lbDnmPrBG0Qak6gjwcn0BD4aseCUqKXg==", null, false, "ec8d2d44-6680-42fb-a682-129bdafa315c", false, "bsanderson" },
+                    { "c451fa23-21d9-4959-9e08-2040a3a00a80", 0, "3f63d395-99f1-4d8a-8ab4-7e07d753e4c6", "joe@sampson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEPXHp8DNwjGB5AtfjAuvzVbab4TtH5qov+ZGeLbeVBmLl7pIF5H5jx+SyhRTSU6Z4Q==", null, false, "efbaa093-da69-41e4-a94c-9f4dcf544598", false, "jsampson" },
+                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "4665ad28-f6a7-4fd6-96a7-10a428dcbe8b", "admina@strator.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAEAhX0qt8HSJLjJ/HqFrC+nm3+daEw1fZuPBq54+aDOkSTC5eluQaW1liNeiPqFiaeg==", null, false, "424a71b6-6a77-4220-bc5c-9451e64b017e", false, "Administrator" },
+                    { "f9c38e11-ae67-483a-a2a7-88e1d3c917d6", 0, "a05707f3-43da-4bfe-af92-102d108ba862", "winnie@sanderson.comx", false, false, null, null, null, "AQAAAAEAACcQAAAAECmXO+I77EW0ZZpUkiVifhUxPvUJb6aKMl4f80T2doBvs2WJxB+l2kLLew2RVzc6Fw==", null, false, "8b0b31d4-dbc6-4f00-8138-4d573ea5f1a8", false, "wsanderson" }
                 });
 
             migrationBuilder.InsertData(
@@ -417,6 +429,16 @@ namespace capstone_server_side.Migrations
                 name: "IX_Images_PropertyId",
                 table: "Images",
                 column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_RecipientId",
+                table: "Messages",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_PropertyTypeId",

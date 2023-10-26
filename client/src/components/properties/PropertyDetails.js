@@ -298,8 +298,8 @@ const handleCalendarClick = (id, userProfileId) => {
           </>
             ) : <p>Cleaning Payment: ${property?.cleaningCost}</p>}     
           <p>Host: {property?.userProfile?.firstName + " " + property?.userProfile?.lastName}</p>
-          {property?.images?.map(i => (
-          <> <img key={i.index} className="img" style={{width: '200px', height: '200px'}} src={i.url}/> 
+          {property?.images?.map((i, index) => (
+          <> <img key={index} className="img" style={{width: '200px', height: '200px'}} src={i.url}/> 
           {
         (loggedInUser.roles.includes("Host") || loggedInUser.roles.includes("Admin"))
         ?         

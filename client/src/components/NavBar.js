@@ -22,7 +22,7 @@ return (
     <div>
     <Navbar color="light" light fixed="true" expand="lg">
         <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
-        🧹🧼Cleanerby
+        🏡🏢🏘️🧹🧼Cleanerby
         </NavbarBrand>
         {loggedInUser ? (
         <>
@@ -42,7 +42,7 @@ return (
                     </NavLink>)}
                 </NavItem>
                 <NavItem className="navlink">
-                {loggedInUser?.roles.includes("Cleaner", "Host") && (
+                {(loggedInUser?.roles.includes("Cleaner") || loggedInUser?.roles.includes("Host") || loggedInUser?.roles.includes("Admin")) && (
                     <NavLink tag={RRNavLink} to="/messages">
                         Messages
                     </NavLink>)}
@@ -59,9 +59,15 @@ return (
                     </NavLink>
                 </NavItem>
                 <NavItem className="navlink">
-                {loggedInUser?.roles.includes("Host", "Admin") && (
+                {loggedInUser?.roles.includes("Host") && (
                     <NavLink tag={RRNavLink} to="/myproperties">
                         My Properties
+                    </NavLink>)}
+                </NavItem>
+                <NavItem className="navlink">
+                {loggedInUser?.roles.includes("Host") && (
+                    <NavLink tag={RRNavLink} to="/scheduled">
+                        Scheduled Cleanings
                     </NavLink>)}
                 </NavItem>
             </Nav>

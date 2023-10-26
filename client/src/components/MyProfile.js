@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Input, Table } from "reactstrap";
+import { Button, Input, Spinner, Table } from "reactstrap";
 import { editUserProfile, getUserProfileById } from "../managers/userProfileManager";
 import { Calendar } from "./Calendar";
 
@@ -7,25 +7,17 @@ export default function MyProfile({ loggedInUser }) {
   const [editMode, setEditMode] = useState(false);
   const [loggedInUserProfile, setLoggedInUserProfile] = useState({})
   const [userProfile, setUserProfile] = useState({
-    firstName: loggedInUser.firstName,
-    lastName: loggedInUser.lastName,
-    email: loggedInUser.email,
-    userName: loggedInUser.userName,
-    address: loggedInUser.address,
-    identityUser: loggedInUser.identityUser,
-    identityUserId: loggedInUser.identityUserId,
-    roles: loggedInUser.roles,
-    
+   
   });
 
   useEffect(() => {
     async function fetchUserProfile() {
       const userProfile = await getUserProfileById(loggedInUser.id);
-      setLoggedInUserProfile(userProfile);
+      setUserProfile(userProfile);
     }
     
     fetchUserProfile();
-  }, [loggedInUser.id]);
+  }, []);
 
 
   const handleEditButton = () => {
@@ -47,6 +39,11 @@ export default function MyProfile({ loggedInUser }) {
         ...prev,
         [e.target.name]: e.target.value
     }))
+  }
+
+  if (!userProfile)
+  {
+    return <Spinner/>
   }
 
   return (
