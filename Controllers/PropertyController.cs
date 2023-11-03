@@ -24,8 +24,8 @@ public class PropertyController : ControllerBase
         _dbContext = context;
     }
 
-    [HttpGet]
-    // [Authorize]
+    // [HttpGet]
+    [Authorize]
     public IActionResult GetProperties()
     {
 
@@ -118,7 +118,6 @@ public class PropertyController : ControllerBase
             CleaningJobs = p.CleaningJobs.OrderBy(cj => cj.Date).ToList(),
             Images = p.Images,
             SqFt = p.SqFt
-
         })
         .Where(p => p.UserProfileId == userId));
     }

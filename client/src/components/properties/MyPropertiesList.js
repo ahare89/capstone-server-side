@@ -39,7 +39,8 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
 
     return (
         <>
-        <h2>My Listings</h2>
+        <h2 className="text-lg font-bold m-2">My Listings</h2>
+        <div className="flex">
         {myProperties.length > 0 ? (
         myProperties.map((property) => (<PropertyCard
         property={property}
@@ -51,15 +52,16 @@ export const MyPropertiesList = ({ setDetailsPropertyId, loggedInUser }) => {
         )))
         : (
         <p>No listings found</p>)}
+        </div>
         {addPropertyButton ? 
         <>
         <AddAProperty addPropertyRef={addPropertyRef} getAllProperties={getAllProperties} setAllProperties={setAllProperties} 
         loggedInUser={loggedInUser} myProperties={myProperties} setMyProperties={setMyProperties} setAddPropertyButton={setAddPropertyButton}/>
-        <Button onClick={handleCancelButton} className="btn btn-danger">Cancel</Button>
+        <button onClick={handleCancelButton} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 mt-4">Cancel</button>
         </>
-        :
-        <Button onClick={handleAddButton} className="btn btn-success">Add Property</Button>
+        : <button onClick={handleAddButton} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 mt-2">Add Property</button>
         }
+        
         </>
 
     )

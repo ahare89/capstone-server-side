@@ -12,13 +12,15 @@ export const AvailablePropertiesList = ({ setDetailsPropertyId, loggedInUser}) =
 
     return (
         <>
-        <h2>Properties Available For Cleaning</h2>
+        <h2 className="text-lg font-bold mb-4">Properties Available For Cleaning</h2>
+        <div className="flex flex-wrap">
         {availableProperties.map(property => (<PropertyCard
         property={property}
         setDetailsPropertyId={setDetailsPropertyId}
         loggedInUser={loggedInUser}
         key={`property-${property.id}`}/>
         ))}
+        </div>
         </>
 
     )

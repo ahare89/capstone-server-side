@@ -8,7 +8,6 @@ export default function Calendar({handleDateSubmitButton, propertyId, userProfil
 
 
     const [cleaningJobs, setCleaningJobs] = useState([]);
-
     const pastDates = (date) => new Date() < date;
     
     useEffect(() => {
@@ -17,7 +16,8 @@ export default function Calendar({handleDateSubmitButton, propertyId, userProfil
 
    
     const jobDates = cleaningJobs?.map(cj => cj.date.slice(0,10));
-
+    console.log(jobDates)
+    
     const takenDates = (date) => {
     const dateString = date.toISOString().slice(0,10);
     return pastDates(date) && !jobDates.includes(dateString)
@@ -25,11 +25,13 @@ export default function Calendar({handleDateSubmitButton, propertyId, userProfil
 
     return (
         <>
+        <div className='border-5'>
         <h4>Available Cleaning Dates:</h4>
-            <DatePicker filterDate={takenDates} selected={date} onChange={(date) => setDate(date)} />
+            <DatePicker className="border-5" filterDate={takenDates} selected={date} onChange={(date) => setDate(date)} />
         {loggedInUser.roles.includes("Cleaner") ? (
-        <Button onClick={() => handleDateSubmitButton(newCleaningJob)} className='btn btn-success'>Submit</Button>        
+        <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 mt-4" onClick={() => handleDateSubmitButton(newCleaningJob)}>Submit</button>        
         ) : "" }
+        </div>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, input, label } from "reactstrap";
 import {
   Dropdown,
   DropdownToggle,
@@ -46,6 +46,8 @@ export const AddAProperty = ({
   useEffect(() => {
     getPropertyTypes().then(setPropertyTypes);
   }, []);
+
+  console.log(propertyTypes)
 
   const handleSubmit = async (e, newProperty, newImage) => {
     e.preventDefault();
@@ -114,93 +116,93 @@ export const AddAProperty = ({
 
   return (
     <>
-    <div ref={addPropertyRef}>
-      <h2 className="container">Add a Listing!</h2>
-      <Form onSubmit={(e) => handleSubmit(e, newProperty, newImage)} className="container">
-        <FormGroup>
-          <Label>Address</Label>
-          <Input
+    <div className="flex items-center justify-center h-screen bg-gray-100 p-6" ref={addPropertyRef}>
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full md:w-3/4 lg:w-1/2">
+      <h4 className="text-xl font-semibold mb-4 text-center">Add A Property</h4>
+      <form onSubmit={(e) => handleSubmit(e, newProperty, newImage)} className="">
+        <div>
+          <label className="block font-medium text-gray-700">Address</label>
+          <input
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Please enter address here"
             autoFocus
             type="text"
             htmlFor="address"
             name="address"
-            placeholder="Please enter address here"
             onChange={handleChange}
           />
-
-          <Label>Square Feet</Label>
-          <Input
+          <div>
+          <label className="block font-medium text-gray-700">Square Feet</label>
+          <input
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Square footage of the property"
             type="number"
-            placeholder="Please enter square footage here"
             name="sqFt"
             htmlFor="squarefeet"
             onChange={handleChange}
           />
-          <Label>Cleaning Payment</Label>
-          <Input
+          </div>
+          <label className="block font-medium text-gray-700">Cleaning Payment</label>
+          <input
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Please enter the cleaning payment amount"
           type="number"
-          placeholder="$100.00"
           name="cleaningCost"
           onChange={handleChange}        
           
           />
-          <Label>Description</Label>
-          <Input
-            type="text"
+          <label className="block font-medium text-gray-700">Description</label>
+          <input
+          className="h-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="textarea"
             htmlFor="Description"
-            placeholder="Two bedroom two bath house in the Hollywood hills"
             name="description"
             onChange={handleChange}
           />
-          <div className="container" style={{ padding: "8px" }}>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle caret color="success">
-                {propertyTypes.find(
-                  (pt) => pt.id === newProperty.propertyTypeId
-                )?.name || "Property Type"}
-              </DropdownToggle>
-              <DropdownMenu dark>
-                <DropdownItem header>Property Type</DropdownItem>
-                <DropdownItem divider />
-                {propertyTypes.map((pt) => (
-                  <DropdownItem
+          <div className="mt-4 mb-4 className= flex items-center space-x-2">
+          <label className="font-medium text-gray-700">Property Type</label>
+                <select
+                onChange={handleChange}
+                name="propertyTypeId"
+                >
+                  <option value="0">Choose a Property Type</option>
+                {propertyTypes.map(pt => 
+                  <option
+                    value={pt.id}
                     key={pt.id}
                     onClick={() =>
                       handleChange({
                         target: { name: "propertyTypeId", value: pt.id },
-                      })
-                    }
-                  >
-                    {pt.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+                      })}>
+                      {pt.name}</option>)}
+                </select>
+
           </div>
-          <Label style={{ fontWeight: "bold" }}>Available to Clean?</Label>
-          <Input
+          <div className="flex items-center">
+          <input
             style={{ padding: "7px", margin: "4px" }}
             type="checkbox"
             name="isActive"
+            className="form-checkbox h-5 w-5 text-green-600"
             onChange={handleChange}
           />
+          <label className="ml-2 block font-medium text-gray-700">Available to Clean?</label>
+          </div>
           <div>
-            <Label>Image URL</Label>
-            <Input
+            <label className="mt-4 mb-2 block font-medium text-gray-700">Image URL</label>
+            <input
+            className="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="www.google.com/images"
               type="text"
               name="url"
-              placeholder="www.google.com"
               onChange={handleImageUpdate}
             />
           </div>
-        </FormGroup>
-        <Button
-          className="btn btn-warning"
+        </div>
+        <button
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 active:bg-green-700 transition duration-300"
           type="submit"
         >
           Submit
-        </Button>
-      </Form>
+        </button>
+      </form>
+      </div>
       </div>
     </>
   );

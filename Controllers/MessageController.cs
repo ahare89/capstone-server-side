@@ -41,6 +41,7 @@ public class MessageController : ControllerBase
 
     public IActionResult CreateMessage(Message newMessage)
     {
+        newMessage.Date = DateTime.Now;
         _dbContext.Messages.Add(newMessage);
         _dbContext.SaveChanges();
 

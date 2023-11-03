@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button, Input, Spinner, Table } from "reactstrap";
 import { editUserProfile, getUserProfileById } from "../managers/userProfileManager";
 import { Calendar } from "./Calendar";
 
@@ -43,96 +42,68 @@ export default function MyProfile({ loggedInUser }) {
 
   if (!userProfile)
   {
-    return <Spinner/>
+    return <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
   }
-
+  
   return (
-    <>
-      <h2 className="container">Your Profile: </h2>
-      {!editMode ? (
-        <Table className="container">
-          <thead>
+    <div className="container mx-auto mt-8">
+      <h2 className="text-2xl font-bold mb-6">Your Profile:</h2>
+      <table className="min-w-full bg-white border rounded-md">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="px-6 py-3 border-b">First Name</th>
+            <th className="px-6 py-3 border-b">Last Name</th>
+            <th className="px-6 py-3 border-b">E-mail</th>
+            <th className="px-6 py-3 border-b">Username</th>
+            <th className="px-6 py-3 border-b">Host or Cleaner?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!editMode ? (
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>E-mail</th>
-              <th>Username</th>
-              <th>Host or Cleaner?</th>
+              <td className="px-6 py-4 border-b">{userProfile.firstName}</td>
+              <td className="px-6 py-4 border-b">{userProfile.lastName}</td>
+              <td className="px-6 py-4 border-b">{userProfile.email}</td>
+              <td className="px-6 py-4 border-b">{userProfile.userName}</td>
+              <td className="px-6 py-4 border-b">{userProfile.roles}</td>
             </tr>
-          </thead>
-          <tbody>
+          ) : (
             <tr>
-              <td>{userProfile.firstName}</td>
-              <td>{userProfile.lastName}</td>
-              <td>{userProfile.email}</td>
-              <td>{userProfile.userName}</td>
-              <td>{userProfile.roles}</td>
+              <td className="px-6 py-4 border-b">
+                <input type="text" name="firstName" value={userProfile.firstName} onChange={handleChange} className="px-3 py-2 border rounded-md"/>
+              </td>
+              <td className="px-6 py-4 border-b">
+                <input type="text" name="lastName" onChange={handleChange} value={userProfile.lastName} className="px-3 py-2 border rounded-md"/>
+              </td>
+              <td className="px-6 py-4 border-b">
+                <input type="email" value={userProfile.email} name="email" onChange={handleChange} className="px-3 py-2 border rounded-md"/>  
+              </td>
+              <td className="px-6 py-4 border-b">
+                <input type="text" name="userName" value={userProfile.userName} onChange={handleChange} className="px-3 py-2 border rounded-md"/>
+              </td>
+              <td className="px-6 py-4 border-b">{loggedInUser.roles}</td>
             </tr>
-          </tbody>
-        </Table>
-      ) : (
-        <Table className="container">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>E-mail</th>
-              <th>Username</th>
-              <th>Host or Cleaner?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><Input
-              type="text"
-              name="firstName"
-              value={userProfile.firstName}
-              onChange={handleChange}
-              /></td>
-              <td><Input
-              type="text"
-              name="lastName"
-              onChange={handleChange}
-              value={userProfile.lastName}/></td>
-              <td><Input
-              type="email"
-              value={userProfile.email}
-              name="email"
-              onChange={handleChange}            
-              /></td>
-              <td><Input
-              type="text"
-              name="userName"
-              value={userProfile.userName}
-              onChange={handleChange}
-              /></td>
-              <td>{loggedInUser.roles}</td>
-            </tr>
-          </tbody>
-        </Table>
-      )}
-      {editMode ? (
-        <>
-          <div className="container">
-            <Button onClick={handleCancelButton} className="btn btn-danger">
+          )}
+        </tbody>
+      </table>
+      <div className="mt-6 flex space-x-4">
+        {editMode ? (
+          <>
+            <button onClick={handleCancelButton} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
               Cancel Edit
-            </Button>
-            <Button onClick={handleSubmitButton} className="btn btn-warning">
+            </button>
+            <button onClick={handleSubmitButton} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition duration-300">
               Submit Changes
-            </Button>
-          </div>
-        </>
-      ) : (
-        <>
-          <Button
-            onClick={handleEditButton}
-            className="btn btn-success"
-            style={{marginLeft: '40em'}}
-          >
+            </button>
+          </>
+        ) : (
+          <button onClick={handleEditButton} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
             Edit Profile
-          </Button>
-        </>
-      )}
-    </>
+          </button>
+        )}
+      </div>
+    </div>
   );
 }

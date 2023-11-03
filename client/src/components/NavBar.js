@@ -1,108 +1,130 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
-import {
-Button,
-Collapse,
-Nav,
-NavLink,
-NavItem,
-Navbar,
-NavbarBrand,
-NavbarToggler,
-} from "reactstrap";
 import { logout } from "../managers/authManager";
-import "./NavBar.css"
+import "./NavBar.css";
+import { getMessagesForUser } from "../managers/messageManager";
 
 export default function NavBar({ loggedInUser, setLoggedInUser }) {
-const [open, setOpen] = useState(false);
 
-const toggleNavbar = () => setOpen(!open);
+  const [usersMessages, setUsersMessages] = useState([]);
 
-return (
-    <div>
-    <Navbar color="light" light fixed="true" expand="lg">
-        <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
-        🏡🏢🏘️🧹🧼Cleanerby
-        </NavbarBrand>
-        {loggedInUser ? (
-        <>
-            <NavbarToggler onClick={toggleNavbar} />
-            <Collapse isOpen={open} navbar>
-            <Nav navbar>
-                <NavItem className="navlink">
+  useEffect(() => {
+    getMessagesForUser(loggedInUser?.id).then(setUsersMessages);
+  },[loggedInUser?.id])
+
+  console.log(usersMessages.length)
+
+  return (
+    <div className="bg-gray-100 p-4">
+      <nav className="flex">
+        <RRNavLink className="text-4xl font-bold text-black" to="/">
+          <div className="flex flex-row p-4">
+            <h1 className="title">Cleanerby</h1>
+            <div className="ml-6">
+            <img
+              className="min-w-20 min-h-20 max-w-20 max-h-20 border rounded-3xl"
+              src="/logos/beelogo1.png"
+              alt="Cleanerby Logo"
+            />
+            </div>
+          </div>
+        </RRNavLink>
+        <div>
+          {loggedInUser ? (
+            <>
+              {/* <button
+                            
+                                className="px-3 py-2 border rounded text-black hover:bg-black hover:text-white"
+                            >
+                                Menu
+                            </button> */}
+              {/* {open && ( */}
+              <div className="flex flex-row ml-12 mt-12">
                 {loggedInUser?.roles.includes("Cleaner", "Admin") && (
-                    <NavLink tag={RRNavLink} to="/available">
-                        Available for Cleaning
-                    </NavLink>)}
-                </NavItem>
-                <NavItem className="navlink">
+                  <RRNavLink
+                    to="/available"
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    Available for Cleaning
+                  </RRNavLink>
+                )}
                 {loggedInUser?.roles.includes("Cleaner") && (
-                    <NavLink tag={RRNavLink} to="/myschedule">
-                        My Schedule
-                    </NavLink>)}
-                </NavItem>
-                <NavItem className="navlink">
-                {(loggedInUser?.roles.includes("Cleaner") || loggedInUser?.roles.includes("Host") || loggedInUser?.roles.includes("Admin")) && (
-                    <NavLink tag={RRNavLink} to="/messages">
-                        Messages
-                    </NavLink>)}
-                </NavItem>
-                <NavItem className="navlink">
+                  <RRNavLink
+                    to="/myschedule"
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    My Schedule
+                  </RRNavLink>
+                )}
+                {(loggedInUser?.roles.includes("Cleaner") ||
+                  loggedInUser?.roles.includes("Host") ||
+                  loggedInUser?.roles.includes("Admin")) && (
+                  <RRNavLink
+                    to="/messages"
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    Messages
+                    <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                      {usersMessages.length > 0 ? usersMessages.length : "0"}
+                    </span>
+                  </RRNavLink>
+                )}
                 {loggedInUser?.roles.includes("Admin") && (
-                    <NavLink tag={RRNavLink} to="/properties">
-                        All Properties
-                    </NavLink>)}
-                </NavItem>
-                <NavItem className="navlink">
-                    <NavLink tag={RRNavLink} to="/profile">
-                        My Profile
-                    </NavLink>
-                </NavItem>
-                <NavItem className="navlink">
+                  <RRNavLink
+                    to="/properties"
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    All Properties
+                  </RRNavLink>
+                )}
+                <RRNavLink
+                  to="/profile"
+                  className="block px-3 py-2 rounded hover:bg-gray-200"
+                >
+                  My Profile
+                </RRNavLink>
                 {loggedInUser?.roles.includes("Host") && (
-                    <NavLink tag={RRNavLink} to="/myproperties">
-                        My Properties
-                    </NavLink>)}
-                </NavItem>
-                <NavItem className="navlink">
+                  <RRNavLink
+                    to="/myproperties"
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    My Properties
+                  </RRNavLink>
+                )}
                 {loggedInUser?.roles.includes("Host") && (
-                    <NavLink tag={RRNavLink} to="/scheduled">
-                        Scheduled Cleanings
-                    </NavLink>)}
-                </NavItem>
-            </Nav>
-            </Collapse>
-            <Button
-            color="primary"
-            onClick={(e) => {
-                e.preventDefault();
-                setOpen(false);
-                logout().then(() => {
-                setLoggedInUser(null);
-                setOpen(false);
-                });
-            }}
-            >
-            Logout
-            </Button>
-        </>
-        ) : (
-        <Nav navbar>
-            <NavItem>
-            <NavLink tag={RRNavLink} to="/login">
-                <Button color="primary">Login</Button>
-            </NavLink>
-            </NavItem>
-        </Nav>
-        )}
-         <NavItem className="navlink">
-            {loggedInUser?.roles.includes("Admin") && (
-            <NavLink tag={RRNavLink} to={"/userprofiles"} >
-                User Profiles
-            </NavLink>
-            )}
-        </NavItem>
-    </Navbar>
+                  <RRNavLink
+                    to="/scheduled"
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    Scheduled Cleanings
+                  </RRNavLink>
+                )}
+                {loggedInUser?.roles.includes("Admin") && (
+                  <RRNavLink
+                    to={"/userprofiles"}
+                    className="block px-3 py-2 rounded hover:bg-gray-200"
+                  >
+                    User Profiles
+                  </RRNavLink>
+                )}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // setOpen(false);
+                    logout().then(() => {
+                      setLoggedInUser(null);
+                      // setOpen(false);
+                    });
+                  }}
+                  className="ml-4 bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : null}
+        </div>
+      </nav>
     </div>
-);
+  );
 }

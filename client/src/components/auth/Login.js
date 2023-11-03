@@ -50,9 +50,9 @@ export default function Login({ setLoggedInUser }) {
         <FormFeedback>Login failed.</FormFeedback>
       </FormGroup>
 
-      <Button color="primary" onClick={handleSubmit}>
+      <button className="bg-blue-500 text-white px-4 py-2 rounded" color="primary" onClick={handleSubmit}>
         Login
-      </Button>
+      </button>
       <p>
         Not signed up? Register <Link to="/register">here</Link>
       </p>
